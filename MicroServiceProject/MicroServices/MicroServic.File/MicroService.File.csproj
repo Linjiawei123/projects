@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<DocumentationFile>obj\MicroService.File.xml</DocumentationFile>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<UserSecretsId>2d1dd8e2-29c1-4732-91d9-dda994c9625b</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..</DockerfileContext>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="Controllers\WebSocket\**" />
+		<Compile Remove="Data\**" />
+		<Compile Remove="Interfaces\**" />
+		<Content Remove="Controllers\WebSocket\**" />
+		<Content Remove="Data\**" />
+		<Content Remove="Interfaces\**" />
+		<EmbeddedResource Remove="Controllers\WebSocket\**" />
+		<EmbeddedResource Remove="Data\**" />
+		<EmbeddedResource Remove="Interfaces\**" />
+		<None Remove="Controllers\WebSocket\**" />
+		<None Remove="Data\**" />
+		<None Remove="Interfaces\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.7" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.2" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Infrastructure\MicroServic.Dto\MicroService.Dto.csproj" />
+	  <ProjectReference Include="..\..\Infrastructure\MicroService.Extend\MicroService.Extend.csproj" />
+	  <ProjectReference Include="..\..\Infrastructure\MicroService.Interfaces\MicroService.Interfaces.csproj" />
+	  <ProjectReference Include="..\..\Infrastructure\MicroService.Method\MicroService.Method.csproj" />
+	  <ProjectReference Include="..\..\Infrastructure\MicroService.Models\MicroService.Models.csproj" />
+	  <ProjectReference Include="..\..\Infrastructure\MicroService.Repository\MicroService.Repository.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,362 @@
+[
+    {
+        "name": "smile",
+        "emoji": "😊",
+        "shortcode": ":smile:",
+        "unicode": "1F60A"
+    },
+    {
+        "name": "wink",
+        "emoji": "😉",
+        "shortcode": ":wink:",
+        "unicode": "1F609"
+    },
+    {
+        "name": "heart",
+        "emoji": "❤️",
+        "shortcode": ":heart:",
+        "unicode": "2764"
+    },
+    {
+        "name": "laugh",
+        "emoji": "😂",
+        "shortcode": ":laugh:",
+        "unicode": "1F602"
+    },
+    {
+        "name": "thumbsup",
+        "emoji": "👍",
+        "shortcode": ":thumbsup:",
+        "unicode": "1F44D"
+    },
+    {
+        "name": "thumbsdown",
+        "emoji": "👎",
+        "shortcode": ":thumbsdown:",
+        "unicode": "1F44E"
+    },
+    {
+        "name": "fire",
+        "emoji": "🔥",
+        "shortcode": ":fire:",
+        "unicode": "1F525"
+    },
+    {
+        "name": "star",
+        "emoji": "⭐",
+        "shortcode": ":star:",
+        "unicode": "2B50"
+    },
+    {
+        "name": "ok_hand",
+        "emoji": "👌",
+        "shortcode": ":ok_hand:",
+        "unicode": "1F44C"
+    },
+    {
+        "name": "sunglasses",
+        "emoji": "😎",
+        "shortcode": ":sunglasses:",
+        "unicode": "1F60E"
+    },
+    {
+        "name": "angry",
+        "emoji": "😠",
+        "shortcode": ":angry:",
+        "unicode": "1F620"
+    },
+    {
+        "name": "cry",
+        "emoji": "😢",
+        "shortcode": ":cry:",
+        "unicode": "1F622"
+    },
+    {
+        "name": "joy",
+        "emoji": "😂",
+        "shortcode": ":joy:",
+        "unicode": "1F602"
+    },
+    {
+        "name": "heart_eyes",
+        "emoji": "😍",
+        "shortcode": ":heart_eyes:",
+        "unicode": "1F60D"
+    },
+    {
+        "name": "kiss",
+        "emoji": "💋",
+        "shortcode": ":kiss:",
+        "unicode": "1F48B"
+    },
+    {
+        "name": "blush",
+        "emoji": "😊",
+        "shortcode": ":blush:",
+        "unicode": "1F60A"
+    },
+    {
+        "name": "smiley",
+        "emoji": "😃",
+        "shortcode": ":smiley:",
+        "unicode": "1F603"
+    },
+    {
+        "name": "relieved",
+        "emoji": "😌",
+        "shortcode": ":relieved:",
+        "unicode": "1F60C"
+    },
+    {
+        "name": "confused",
+        "emoji": "😕",
+        "shortcode": ":confused:",
+        "unicode": "1F615"
+    },
+    {
+        "name": "neutral_face",
+        "emoji": "😐",
+        "shortcode": ":neutral_face:",
+        "unicode": "1F610"
+    },
+    {
+        "name": "rage",
+        "emoji": "😡",
+        "shortcode": ":rage:",
+        "unicode": "1F621"
+    },
+    {
+        "name": "sob",
+        "emoji": "😭",
+        "shortcode": ":sob:",
+        "unicode": "1F62D"
+    },
+    {
+        "name": "grin",
+        "emoji": "😁",
+        "shortcode": ":grin:",
+        "unicode": "1F601"
+    },
+    {
+        "name": "kissing_heart",
+        "emoji": "😘",
+        "shortcode": ":kissing_heart:",
+        "unicode": "1F618"
+    },
+    {
+        "name": "flushed",
+        "emoji": "😳",
+        "shortcode": ":flushed:",
+        "unicode": "1F633"
+    },
+    {
+        "name": "thinking",
+        "emoji": "🤔",
+        "shortcode": ":thinking:",
+        "unicode": "1F914"
+    },
+    {
+        "name": "sleeping",
+        "emoji": "😴",
+        "shortcode": ":sleeping:",
+        "unicode": "1F634"
+    },
+    {
+        "name": "unamused",
+        "emoji": "😒",
+        "shortcode": ":unamused:",
+        "unicode": "1F612"
+    },
+    {
+        "name": "worried",
+        "emoji": "😟",
+        "shortcode": ":worried:",
+        "unicode": "1F61F"
+    },
+    {
+        "name": "upside_down_face",
+        "emoji": "🙃",
+        "shortcode": ":upside_down_face:",
+        "unicode": "1F643"
+    },
+    {
+        "name": "mask",
+        "emoji": "😷",
+        "shortcode": ":mask:",
+        "unicode": "1F637"
+    },
+    {
+        "name": "sunglasses",
+        "emoji": "😎",
+        "shortcode": ":sunglasses:",
+        "unicode": "1F60E"
+    },
+    {
+        "name": "neutral_face",
+        "emoji": "😐",
+        "shortcode": ":neutral_face:",
+        "unicode": "1F610"
+    },
+    {
+        "name": "expressionless",
+        "emoji": "😑",
+        "shortcode": ":expressionless:",
+        "unicode": "1F611"
+    },
+    {
+        "name": "sweat",
+        "emoji": "😓",
+        "shortcode": ":sweat:",
+        "unicode": "1F613"
+    },
+    {
+        "name": "scream",
+        "emoji": "😱",
+        "shortcode": ":scream:",
+        "unicode": "1F631"
+    },
+    {
+        "name": "rolling_eyes",
+        "emoji": "🙄",
+        "shortcode": ":rolling_eyes:",
+        "unicode": "1F644"
+    },
+    {
+        "name": "astonished",
+        "emoji": "😲",
+        "shortcode": ":astonished:",
+        "unicode": "1F632"
+    },
+    {
+        "name": "zipper_mouth_face",
+        "emoji": "🤐",
+        "shortcode": ":zipper_mouth_face:",
+        "unicode": "1F910"
+    },
+    {
+        "name": "relieved",
+        "emoji": "😌",
+        "shortcode": ":relieved:",
+        "unicode": "1F60C"
+    },
+    {
+        "name": "imp",
+        "emoji": "👿",
+        "shortcode": ":imp:",
+        "unicode": "1F47F"
+    },
+    {
+        "name": "innocent",
+        "emoji": "😇",
+        "shortcode": ":innocent:",
+        "unicode": "1F607"
+    },
+    {
+        "name": "triumph",
+        "emoji": "😤",
+        "shortcode": ":triumph:",
+        "unicode": "1F624"
+    },
+    {
+        "name": "persevere",
+        "emoji": "😣",
+        "shortcode": ":persevere:",
+        "unicode": "1F623"
+    },
+    {
+        "name": "disappointed",
+        "emoji": "😞",
+        "shortcode": ":disappointed:",
+        "unicode": "1F61E"
+    },
+    {
+        "name": "anguished",
+        "emoji": "😧",
+        "shortcode": ":anguished:",
+        "unicode": "1F627"
+    },
+    {
+        "name": "weary",
+        "emoji": "😩",
+        "shortcode": ":weary:",
+        "unicode": "1F629"
+    },
+    {
+        "name": "fearful",
+        "emoji": "😨",
+        "shortcode": ":fearful:",
+        "unicode": "1F628"
+    },
+    {
+        "name": "cold_sweat",
+        "emoji": "😰",
+        "shortcode": ":cold_sweat:",
+        "unicode": "1F630"
+    },
+    {
+        "name": "hushed",
+        "emoji": "😯",
+        "shortcode": ":hushed:",
+        "unicode": "1F62F"
+    },
+    {
+        "name": "japanese_goblin",
+        "emoji": "👺",
+        "shortcode": ":japanese_goblin:",
+        "unicode": "1F47A"
+    },
+    {
+        "name": "japanese_ogre",
+        "emoji": "👹",
+        "shortcode": ":japanese_ogre:",
+        "unicode": "1F479"
+    },
+    {
+        "name": "skull",
+        "emoji": "💀",
+        "shortcode": ":skull:",
+        "unicode": "1F480"
+    },
+    {
+        "name": "ghost",
+        "emoji": "👻",
+        "shortcode": ":ghost:",
+        "unicode": "1F47B"
+    },
+    {
+        "name": "alien",
+        "emoji": "👽",
+        "shortcode": ":alien:",
+        "unicode": "1F47D"
+    },
+    {
+        "name": "space_invader",
+        "emoji": "👾",
+        "shortcode": ":space_invader:",
+        "unicode": "1F47E"
+    },
+    {
+        "name": "robot",
+        "emoji": "🤖",
+        "shortcode": ":robot:",
+        "unicode": "1F916"
+    },
+    {
+        "name": "clown",
+        "emoji": "🤡",
+        "shortcode": ":clown:",
+        "unicode": "1F921"
+    },
+    {
+        "name": "zombie",
+        "emoji": "🧟",
+        "shortcode": ":zombie:",
+        "unicode": "1F9DF"
+    },
+    {
+        "name": "skull_crossbones",
+        "emoji": "☠️",
+        "shortcode": ":skull_crossbones:",
+        "unicode": "2620"
+    }
+]

@@ -1,0 +1,101 @@
+
+//*********************超时+限流+熔断+降级+Consul+Polly******************************
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/{url}", //服务地址--url变量
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "192.168.80.128",
+          "Port": 5101
+        }
+      ],
+      "UpstreamPathTemplate": "/OA/{url}", 
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    },
+    {
+      "UpstreamPathTemplate": "/Upload/{url}",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "DownstreamPathTemplate": "/api/{url}",
+      "DownstreamScheme": "http",
+      "UseServiceDiscovery": true, //使用服务发现
+      "ServiceName": "MicroService", //consul服务名称
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin" //轮询
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/{url}", 
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "192.168.80.128",
+          "Port": 7600
+        }
+      ],
+      "UpstreamPathTemplate": "/SignalR/{url}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "UserGatewayKey",
+        "AllowedScopes": [ "OAApi" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/{url}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "192.168.80.128",
+          "Port": 7123
+        }
+      ],
+      "UpstreamPathTemplate": "/S/{url}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    },
+    {
+      "UpstreamPathTemplate": "/T/{url}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "DownstreamPathTemplate": "/api/{url}",
+      "DownstreamScheme": "http",
+      "UseServiceDiscovery": true, //使用服务发现
+      "ServiceName": "MicroService", //consul服务名称
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin" //轮询
+      },
+      "RateLimitOptions": { //限流
+        "ClientWhitelist": [], //白名单ClientId区分大小写
+        "EnableRateLimiting": true,
+        "Period": "5m", //1s，5m，1h,1d
+        "PeriodTimespan": 30, //多少秒之后客户端可以重试
+        "Limit": 5 //统计时间段内允许的最大请求数量---张队贡献的代码，5分钟内只能请求5次，超过5次等30秒，再访问
+      }
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "UserGatewayKey",
+      //  "AllowedScopes": []
+      //}
+      //"QoSOptions": {
+      //  "ExceptionsAllowedBeforeBreaking": 3, //允许多少个异常请求
+      //  "DurationOfBreak": 10000, // 熔断的时间，单位为ms
+      //  "TimeoutValue": 2000 //单位ms 如果下游请求的处理时间超过多少则自如将请求设置为超时默认90秒
+      //},
+      //"FileCacheOptions": {
+      //  "TtlSeconds": 15,
+      //  "Region": "UserCache" //可以调用Api清理
+      //}
+    }
+  ],
+  "GlobalConfiguration": {
+    //"BaseUrl": "http://127.0.0.1:6124",//网关对外地址
+    "ServiceDiscoveryProvider": {
+      "Host": "192.168.80.128",
+      "Port": 8500,
+      "Type": "Consul" //由Consul提供服务发现，每次请求去consul
+    },
+    "RateLimitOptions": {
+      "QuotaExceededMessage": "Too many requests,maybe later? ", //当请求过载被截断时返回的消息
+      "HttpStatusCode": 666, //当请求过载被截断时返回的http status
+      "ClientIdHeader": "client_id" //用来识别客户端的请求头，默认是ClientId
+    }
+  }
+}
