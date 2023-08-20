@@ -1,5 +1,6 @@
 import axios from "axios";
 import store from '../store'
+import router from "@/router";
 //import qs from "querystring"
 import { ElMessage } from 'element-plus'
 
@@ -22,17 +23,16 @@ instance.interceptors.response.use(
         return response.status == 200 ? response : Promise.reject(response.data.message)
     },
     error => {
-        console.log(error.response);
         if (error.response.status) {
             switch (error.response.status) {
                 // 401: 未登录
                 // 未登录则跳转登录页面，并携带当前页面的路径
                 // 在登录成功后返回当前页面，这一步需要在登录页操作。                
                 case 401:
-                    this.$router.replace({
-                        path: '/login',
+                    router.replace({
+                        path: '/',
                         query: {
-                            // redirect: this.$router.currentRoute.fullPath
+                            redirect: router.currentRoute.fullPath
                         }
                     });
                     break;

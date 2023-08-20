@@ -24,17 +24,20 @@ namespace MicroService.Extend.Middleware
             string[] methods = { "POST", "PUT" };
             if (context.Request.HasFormContentType && methods.Contains(context.Request.Method))
             {
-                var form = await context.Request.ReadFormAsync();
-
-                var formFields = new Dictionary<string, StringValues>(form);
-                var sanitizedFormFields = new Dictionary<string, StringValues>();
-
-                foreach (var formField in formFields)
+                if (!context.Request.ContentType.Contains("multipart/form-data"))
                 {
-                    sanitizedFormFields[formField.Key] = XssFilter(formField.Value);
-                }
+                    var form = await context.Request.ReadFormAsync();
 
-                context.Request.Form = new FormCollection(sanitizedFormFields);
+                    var formFields = new Dictionary<string, StringValues>(form);
+                    var sanitizedFormFields = new Dictionary<string, StringValues>();
+
+                    foreach (var formField in formFields)
+                    {
+                        sanitizedFormFields[formField.Key] = XssFilter(formField.Value);
+                    }
+
+                    context.Request.Form = new FormCollection(sanitizedFormFields);
+                }
             }
             else if (!context.Request.HasFormContentType && methods.Contains(context.Request.Method))
             {

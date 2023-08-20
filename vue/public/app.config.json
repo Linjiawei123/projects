@@ -1,0 +1,4 @@
+{
+    "baseUrl": "http://hn.qlycloud.com:27162/",
+    "chatUrl": "ws://hn.qlycloud.com:27162/gateway/"
+}

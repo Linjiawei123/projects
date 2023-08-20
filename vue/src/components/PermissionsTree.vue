@@ -126,6 +126,10 @@ export default {
     margin-left: 60px;
 }
 
+.el-checkbox{
+    margin-right: 6px;
+}
+
 [v-cloak] {
     display: none;
 }

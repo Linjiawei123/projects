@@ -35,7 +35,7 @@
                 <el-dropdown class="user">
                     <div class="userinfo">
                         <el-avatar class="user-avatar"
-                            :src="this.$store.state.userInfo.url ?? require('../assets/avater.png')" />
+                            :src="this.$fileUrl(this.$store.state.userInfo.url) ?? require('../assets/avater.png')" />
                         <div class="username">{{ this.$store.state.userInfo.userName }}</div>
                     </div>
                     <template #dropdown>

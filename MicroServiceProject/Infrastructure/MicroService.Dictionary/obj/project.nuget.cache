@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "oK9A4+1SCAE85zbNuLAf7PStMuwH/ibv+gdzCHaYkJIVYNvj0Fb3+vtaAqQnkv+KLlWy/uo18MdXyPMfGMs3/Q==",
+  "success": true,
+  "projectFilePath": "E:\\Share\\DockersProjects\\MicroServiceProject\\Infrastructure\\MicroService.Dictionary\\MicroService.Dictionary.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Administrator\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

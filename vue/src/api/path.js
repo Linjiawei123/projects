@@ -1,6 +1,7 @@
+import config from '../../public/app.config.json'
 const base = {
-    baseUrl: 'http://192.168.80.128:6123/',
-    chatUrl:'http://192.168.80.128:7600/',
+    baseUrl: config.baseUrl,
+    chatUrl: config.chatUrl,
 
     UploadPic: 'Upload/Upload',
 
@@ -19,9 +20,9 @@ const base = {
     role: 'OA/SysRole',
     roleUserList: 'OA/SysRole/UserList',
     roleUser: 'OA/SysRole/RoleUser',
-    department:'OA/Department',
-    logs:'OA/SystemLog',
-    employee:'OA/Employee',
+    department: 'OA/Department',
+    logs: 'OA/SystemLog',
+    employee: 'OA/Employee',
 
 }
 

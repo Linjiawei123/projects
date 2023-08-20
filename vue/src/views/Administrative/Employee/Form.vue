@@ -104,7 +104,7 @@
                     <div class="photo">
                         <el-upload class="avatar-uploader" action="" :http-request="uploadFile" :show-file-list="false"
                             :file-list="fileList" :disabled="operate === 1" accept=".jpg, .png, jpeg">
-                            <el-image class="photo-image" :src="employee.photo"><template #error>
+                            <el-image class="photo-image" :src="this.$fileUrl(employee.photo)"><template #error>
                                     <div class="image-slot">
                                         <el-icon><icon-picture /></el-icon>
                                     </div>
@@ -258,7 +258,7 @@ export default {
         uploadFile(file) {
             const formData = new FormData();
             formData.append("file", file.file);
-            axios.post(path.fileUrl, formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then(res => {
+            axios.post(path.baseUrl + path.UploadPic, formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then(res => {
                 this.employee.photo = res.data.data
             })
         },

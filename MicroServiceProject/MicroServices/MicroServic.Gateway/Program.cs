@@ -66,6 +66,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseMiddleware<XssFilterMiddleware>();//xss过滤
 
+app.UseWebSockets();
+
 app.UseOcelot();//使用Ocelot来完成http请求
 
 app.Run();

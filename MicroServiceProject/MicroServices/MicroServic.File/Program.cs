@@ -13,6 +13,10 @@ using Microsoft.AspNetCore.Http.Features;
 using MicroService.Extend;
 using MicroService.Dto.PublicModels;
 using System.Net;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
+using MicroService.Interfaces;
+using MicroService.Dto.OAModels;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -22,7 +26,6 @@ var configuration = builder.Configuration;
 
 
 // Cors
-builder.Services.Configure<Cors>(configuration.GetSection("Cors"));
 Cors corsConfig = new();
 configuration.GetSection("Cors").Bind(corsConfig);
 builder.Services.AddCors(options =>
@@ -85,18 +88,6 @@ builder.Services.AddAuthentication("Bearer")
 
 });
 
-
-//读取配置文件
-builder.Services.AddOptions().Configure<UploadSetting>(configuration.GetSection("UploadModels"));
-
-
-
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-BaseHttpContext.ServiceCollection = builder.Services;
-
-//初始化redis
-RedisHepler.InitConnect(configuration);
-
 //请求体最大值
 builder.WebHost.ConfigureKestrel((context, options) =>
 {
@@ -111,16 +102,23 @@ builder.Services.Configure<FormOptions>(option =>
     option.MultipartBodyLengthLimit = 1073741824;
 });
 
+UploadSetting uploadConfig = new();
+configuration.GetSection("UploadModels").Bind(uploadConfig);
+builder.Services.AddOptions().Configure<UploadSetting>(configuration.GetSection("UploadModels"));
 
-// 配置容器
+
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
-builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
+builder.Host.ConfigureContainer<ContainerBuilder>((context, containerBuilder) =>
 {
-    builder.RegisterModule(new AutofacModuleRegister());
-    builder.RegisterType(typeof(DataContext)).Named<DbContext>("DataContext");
-    builder.RegisterAssemblyTypes(Assembly.Load("MicroService.Repository")).Where(x => x.Name.EndsWith("Repository")).WithParameter(ResolvedParameter.ForNamed<DbContext>("DataContext")).AsImplementedInterfaces();
+    containerBuilder.RegisterType<ErrorRepository>().As<IErrorRepository>();
+    containerBuilder.RegisterType<UploadRepository>().As<IUploadRepository>();
+    containerBuilder.RegisterType<UserRepository>().As<IUserRepository>();
+    containerBuilder.RegisterType<LoginUserRepository>().As<ILoginUserRepository>();
 });
 
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+BaseHttpContext.ServiceCollection = builder.Services;
 
 
 // Http中间件
@@ -129,7 +127,9 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
+
 app.UseCors("Cors");
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();//认证
@@ -139,6 +139,15 @@ app.UseMiddleware<UserInfoMiddleware>();
 
 app.MapControllers();
 
+
+app.UseStaticFiles();
+app.UseFileServer(new FileServerOptions
+{
+
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), uploadConfig.FileProvider)),
+    RequestPath = new PathString(uploadConfig.RequestPath),
+    EnableDirectoryBrowsing = true
+});
 
 app.UseSwagger(c =>
 {

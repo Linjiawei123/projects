@@ -1,0 +1,211 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MicroService.File</name>
+    </assembly>
+    <members>
+        <member name="T:MicroService.File.FieldFilterAttribute">
+            <summary>
+            XXS过滤
+            </summary>
+        </member>
+        <member name="M:MicroService.File.FieldFilterAttribute.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:MicroService.File.FieldFilterAttribute.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
+            <summary>
+            在Action方法之回之后调用
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:MicroService.File.FieldFilterAttribute.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
+            <summary>
+            在调用Action方法之前调用
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:MicroService.File.FieldFilterAttribute.ModelFieldFilter(System.String,System.Type,System.Object)">
+            <summary>
+            遍历修改类的字符串属性
+            </summary>
+            <param name="key">类名</param>
+            <param name="t">数据类型</param>
+            <param name="obj">对象</param>
+            <returns></returns>
+        </member>
+        <member name="T:MicroService.File.BaseHttpContext">
+            <summary>
+            BaseHttpContext
+            </summary>
+        </member>
+        <member name="F:MicroService.File.BaseHttpContext.ServiceCollection">
+            <summary>
+            服务集合
+            </summary>
+        </member>
+        <member name="P:MicroService.File.BaseHttpContext.Current">
+            <summary>
+            当前上下文
+            </summary>
+        </member>
+        <member name="T:MicroService.File.Controllers.BaseController">
+            <summary>
+            基础控制器
+            </summary>
+        </member>
+        <member name="P:MicroService.File.Controllers.BaseController.UserInformation">
+            <summary>
+            用户信息
+            </summary>
+        </member>
+        <member name="T:MicroService.File.Controllers.UploadController">
+            <summary>
+            上传接口
+            </summary>
+        </member>
+        <member name="M:MicroService.File.Controllers.UploadController.#ctor(MicroService.Interfaces.IErrorRepository,Microsoft.Extensions.Options.IOptions{MicroService.File.Model.UploadSetting},MicroService.Interfaces.IUploadRepository)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="iError">错误数据接口</param>
+            <param name="config">上传配置</param>
+            <param name="iUpload">上传数据接口</param>
+        </member>
+        <member name="M:MicroService.File.Controllers.UploadController.UploadFileAsync(System.String,System.Nullable{System.Boolean},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Boolean},System.Nullable{System.Int32},Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            上传
+            </summary>
+            <param name="setting">上传模块，空为默认模块</param>
+            <param name="IsZoom">是否缩放</param>
+            <param name="ZoomWidth">缩放宽度</param>
+            <param name="ZoomHeight">缩放高度</param>
+            <param name="IsZip">是否压缩</param>
+            <param name="Quality">压缩质量 1-100</param>
+            <param name="file">上传文件</param>
+            <returns></returns>
+        </member>
+        <member name="M:MicroService.File.Controllers.UploadController.UploadVideoAsync(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            上传
+            </summary>
+            <param name="file">上传文件</param>
+            <returns></returns>
+        </member>
+        <member name="T:MicroService.File.OutPutMethod`1">
+            <summary>
+            输出方法
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:MicroService.File.OutPutMethod`1.Success(`0,System.Int32,System.String)">
+            <summary>
+            返回成功
+            </summary>
+            <param name="data">返回数据</param>
+            <param name="errType">是否显示提示（1：显示，其余不显示）</param>
+            <param name="message">提示信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:MicroService.File.OutPutMethod`1.Success(System.Collections.Generic.List{System.String},`0,System.Int32,System.String)">
+            <summary>
+            返回成功
+            </summary>
+            <param name="Rights"></param>
+            <param name="Data"></param>
+            <param name="ErrType"></param>
+            <param name="Message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MicroService.File.OutPutMethod`1.Failure(System.String,`0,System.Int32)">
+            <summary>
+            返回失败
+            </summary>
+            <param name="message">提示信息</param>
+            <param name="data">返回数据</param>
+            <param name="statusCode">HTTP状态码</param>
+            <returns></returns>
+        </member>
+        <member name="T:MicroService.File.Model.UploadConfig">
+            <summary>
+            上传配置
+            </summary>
+        </member>
+        <member name="P:MicroService.File.Model.UploadConfig.Model">
+            <summary>
+            上传模块
+            </summary>
+        </member>
+        <member name="P:MicroService.File.Model.UploadConfig.Path">
+            <summary>
+            保存路径
+            </summary>
+        </member>
+        <member name="P:MicroService.File.Model.UploadConfig.Url">
+            <summary>
+            文件地址
+            </summary>
+        </member>
+        <member name="P:MicroService.File.Model.UploadConfig.MaxSize">
+            <summary>
+            最大限制
+            </summary>
+        </member>
+        <member name="P:MicroService.File.Model.UploadConfig.Zoom">
+            <summary>
+            是否缩放图片
+            </summary>
+        </member>
+        <member name="P:MicroService.File.Model.UploadConfig.Width">
+            <summary>
+            图片默认缩放宽度
+            </summary>
+        </member>
+        <member name="P:MicroService.File.Model.UploadConfig.Height">
+            <summary>
+            图片默认缩放高度
+            </summary>
+        </member>
+        <member name="P:MicroService.File.Model.UploadConfig.Zip">
+            <summary>
+            是否压缩
+            </summary>
+        </member>
+        <member name="P:MicroService.File.Model.UploadConfig.Quality">
+            <summary>
+            压缩质量 1-100
+            </summary>
+        </member>
+        <member name="P:MicroService.File.Model.UploadConfig.ExtName">
+            <summary>
+            可上传文件拓展名
+            </summary>
+        </member>
+        <member name="T:MicroService.File.Model.UploadSetting">
+            <summary>
+            上传配置
+            </summary>
+        </member>
+        <member name="P:MicroService.File.Model.UploadSetting.FFmpegPath">
+            <summary>
+            ffmpeg程序路径
+            </summary>
+        </member>
+        <member name="P:MicroService.File.Model.UploadSetting.FileProvider">
+            <summary>
+            静态路径
+            </summary>
+        </member>
+        <member name="P:MicroService.File.Model.UploadSetting.RequestPath">
+            <summary>
+            返回路径
+            </summary>
+        </member>
+        <member name="P:MicroService.File.Model.UploadSetting.Models">
+            <summary>
+            上传模型集
+            </summary>
+        </member>
+    </members>
+</doc>

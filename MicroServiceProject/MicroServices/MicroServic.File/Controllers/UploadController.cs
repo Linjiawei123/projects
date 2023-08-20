@@ -86,12 +86,12 @@ namespace MicroService.File.Controllers
                 #region 路径处理
                 string datePath = DateTime.Now.ToString("yyyyMMdd");
                 string guid = Guid.NewGuid().ToString();
-                string savePath = config.Path + "\\" + datePath + "\\";
-                string fileUrl = config.Url + "/" + datePath + "/";
+                string savePath = _config.FileProvider + config.Path + "/" + datePath + "/";
+                string fileUrl = _config.RequestPath + config.Url + "/" + datePath + "/";
                 string fileName = guid + fileExt;
                 if (!FileHepler.DirectoryExists(savePath))
                     FileHepler.DirectoryCreate(savePath);
-                while (FileHepler.FileExists(savePath + "\\" + guid))
+                while (FileHepler.FileExists(savePath + "/" + guid))
                     fileName = Guid.NewGuid() + fileExt;
                 savePath += fileName;
                 fileUrl += fileName;
@@ -108,7 +108,6 @@ namespace MicroService.File.Controllers
 
                 if (!FileHepler.FileExists(savePath))
                     return OutPutMethod<object>.Failure("上传失败！", null, (int)HttpStatusCode.BadRequest);
-
                 #region 数据处理
                 UploadFile data = new()
                 {
@@ -121,7 +120,7 @@ namespace MicroService.File.Controllers
                     UploadTime = DateTime.Now
                 };
                 #endregion
-                if(! await _iUpload.AddAsync(data))
+                if (!await _iUpload.AddAsync(data))
                     return OutPutMethod<object>.Failure();
                 else
                     return OutPutMethod<object>.Success(data.Url);
@@ -163,8 +162,8 @@ namespace MicroService.File.Controllers
                 #region 路径处理
                 string datePath = DateTime.Now.ToString("yyyyMMdd");
                 string guid = Guid.NewGuid().ToString();
-                string savePath = config.Path + "\\" + datePath + "\\";
-                string fileUrl = config.Url + "/" + datePath + "/";
+                string savePath = _config.FileProvider + config.Path + "/" + datePath + "/";
+                string fileUrl = _config.RequestPath + config.Url + "/" + datePath + "/";
                 string fileName = guid;
                 while (FileHepler.FileExists(fileName))
                 {
@@ -173,9 +172,9 @@ namespace MicroService.File.Controllers
                 if (!FileHepler.DirectoryExists(savePath+ fileName))
                     FileHepler.DirectoryCreate(savePath + fileName);
                 
-                string m3u8Parh = savePath + fileName + "\\index.m3u8";
+                string m3u8Parh = savePath + fileName + "/index.m3u8";
                 fileUrl += fileName + "/index.m3u8";
-                savePath += fileName + "\\1" + fileExt;
+                savePath += fileName + "/1" + fileExt;
                 #endregion
 
                 #region 文件处理

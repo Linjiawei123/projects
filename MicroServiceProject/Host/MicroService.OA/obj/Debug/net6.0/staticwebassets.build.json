@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "BCQOPJQ3QSCQeKsh7zpBrAxWUJO3giJVkDeD1PIvcOY=",
+  "Source": "MicroService.OA",
+  "BasePath": "_content/MicroService.OA",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

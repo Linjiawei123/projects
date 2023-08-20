@@ -12,7 +12,7 @@
                     <el-form label-width="50px" :model="user" style="max-width: 280px">
                         <el-upload class="avatar-uploader" action="" :http-request="uploadFile" :show-file-list="false"
                             :file-list="fileList" :disabled="!edit" accept=".jpg, .png, jpeg">
-                            <el-avatar :src="user.url" :size="100" style="margin-bottom: 10px;" />
+                            <el-avatar :src="this.$fileUrl(user.url)" :size="100" style="margin-bottom: 10px;" />
                         </el-upload>
                         <el-form-item label="账号：">
                             <el-input v-model="user.account" disabled />

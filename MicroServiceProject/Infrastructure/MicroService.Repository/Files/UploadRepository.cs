@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MicroService.Repository
 {
-    internal class UploadRepository : DbContext, IUploadRepository
+    public class UploadRepository : DataContext, IUploadRepository
     {
-        private readonly DbContext _dbContext;
+        private readonly DataContext _dbContext;
         private readonly DbSet<UploadFile> _files;
-        public UploadRepository(DbContext dbContext)
+        public UploadRepository(DataContext dbContext)
         {
             _dbContext = dbContext;
             _files = _dbContext.Set<UploadFile>();

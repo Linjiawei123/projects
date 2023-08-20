@@ -1,0 +1,12 @@
+E:\Desktop\MicroServiceProject\Infrastructure\MicroService.Service\bin\Debug\net6.0\MicroService.Service.deps.json
+E:\Desktop\MicroServiceProject\Infrastructure\MicroService.Service\bin\Debug\net6.0\MicroService.Service.dll
+E:\Desktop\MicroServiceProject\Infrastructure\MicroService.Service\bin\Debug\net6.0\MicroService.Service.pdb
+E:\Desktop\MicroServiceProject\Infrastructure\MicroService.Service\obj\Debug\net6.0\MicroService.Service.csproj.AssemblyReference.cache
+E:\Desktop\MicroServiceProject\Infrastructure\MicroService.Service\obj\Debug\net6.0\MicroService.Service.GeneratedMSBuildEditorConfig.editorconfig
+E:\Desktop\MicroServiceProject\Infrastructure\MicroService.Service\obj\Debug\net6.0\MicroService.Service.AssemblyInfoInputs.cache
+E:\Desktop\MicroServiceProject\Infrastructure\MicroService.Service\obj\Debug\net6.0\MicroService.Service.AssemblyInfo.cs
+E:\Desktop\MicroServiceProject\Infrastructure\MicroService.Service\obj\Debug\net6.0\MicroService.Service.csproj.CoreCompileInputs.cache
+E:\Desktop\MicroServiceProject\Infrastructure\MicroService.Service\obj\Debug\net6.0\MicroService.Service.dll
+E:\Desktop\MicroServiceProject\Infrastructure\MicroService.Service\obj\Debug\net6.0\refint\MicroService.Service.dll
+E:\Desktop\MicroServiceProject\Infrastructure\MicroService.Service\obj\Debug\net6.0\MicroService.Service.pdb
+E:\Desktop\MicroServiceProject\Infrastructure\MicroService.Service\obj\Debug\net6.0\ref\MicroService.Service.dll

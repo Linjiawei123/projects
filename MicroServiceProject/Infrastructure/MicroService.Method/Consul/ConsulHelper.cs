@@ -17,7 +17,7 @@ namespace MicroService.Method
         {
             ConsulClient client = new(c =>
             {
-                c.Address = new Uri("http://localhost:8500/");
+                c.Address = new Uri("http://192.168.127.16:8500/");
                 c.Datacenter = "dc1";
             });
             string ip = string.IsNullOrWhiteSpace(configuration["ip"]) ? "127.0.0.1" : configuration["ip"];

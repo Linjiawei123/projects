@@ -36,15 +36,12 @@
                     <div ref="scrollContainer" class="scrollContainer">
                         <div v-for="(message, index) in activeContact.messages" :key="index" class="message">
                             <div :class="[message.senderId === this.userInfo.id ? 'sent' : 'received']">
-                                <div v-if="message.senderId != this.userInfo.id" class="header-avatar">
+                                <div v-if="message.senderId != this.userInfo.id" class="message-data-avatar">
                                     <img :src="imageSrc(activeContact.avatar)" />
                                 </div>
                                 <div class="message-data">
-                                    <div class="message-date">{{ message.sendTime }}</div>
+                                    <div class="message-date">{{ checkDate(message.sendTime) }}</div>
                                     <div class="message-content">{{ isEmoji(message) }}</div>
-                                </div>
-                                <div v-if="message.senderId === this.userInfo.id" class="header-avatar">
-                                    <img :src="imageSrc(activeContact.avatar)" />
                                 </div>
                             </div>
                         </div>
@@ -100,7 +97,8 @@ export default {
     },
     computed: {
         activeContact() {
-            return this.contacts[this.activeContactIndex];
+            var data = this.contacts[this.activeContactIndex]
+            return data;
         },
         filteredContacts() {
             if (this.searchQuery) {
@@ -116,9 +114,11 @@ export default {
         this.init();
     },
     mounted() {
-        this.setupDraggableWindow();
         this.$watch('activeContactIndex', newIndex => {
+            console.log(newIndex)
+            console.log(this.contacts)
             var data = this.contacts[newIndex];
+            console.log(data)
             this.sendUserid = data.id;
         }, { immediate: true });
         this.connectToChatHub();
@@ -143,42 +143,6 @@ export default {
             this.$emit('minimize');
             this.disconnectSignalR();
         },
-        setupDraggableWindow() {
-            const windowRef = this.$refs.windowRef;
-            let isDragging = false;
-            let mouseOffsetX = 0;
-            let mouseOffsetY = 0;
-
-            const handleMouseDown = (e) => {
-                isDragging = true;
-                mouseOffsetX = e.clientX - windowRef.offsetLeft;
-                mouseOffsetY = e.clientY - windowRef.offsetTop;
-            };
-
-            const handleMouseMove = (e) => {
-                if (isDragging) {
-                    const newLeft = e.clientX - mouseOffsetX;
-                    const newTop = e.clientY - mouseOffsetY;
-                    windowRef.style.left = `${newLeft}px`;
-                    windowRef.style.top = `${newTop}px`;
-                }
-            };
-
-            const handleMouseUp = () => {
-                isDragging = false;
-            };
-
-            windowRef.addEventListener('mousedown', handleMouseDown);
-            window.addEventListener('mousemove', handleMouseMove);
-            window.addEventListener('mouseup', handleMouseUp);
-
-            const beforeUnmountHandler = () => {
-                windowRef.removeEventListener('mousedown', handleMouseDown);
-                window.removeEventListener('mousemove', handleMouseMove);
-                window.removeEventListener('mouseup', handleMouseUp);
-            };
-            this.$options.beforeUnmount = beforeUnmountHandler;
-        },
 
         async scrollToBottom() {
             await this.$nextTick();
@@ -188,11 +152,28 @@ export default {
 
         changeActiveContact(index) {
             this.activeContactIndex = index;
+            this.scrollToBottom();
         },
 
         imageSrc(data) {
-            return data || this.defaultAvatar;
+            return this.$fileUrl(data || this.defaultAvatar);
         },
+
+        checkDate(dateString) {
+            var parts = dateString.split(' ');
+            var datePart = parts[0];
+            var timePart = parts[1];
+            var date = new Date(datePart);
+            var today = new Date();
+            date.setHours(0, 0, 0, 0);
+            today.setHours(0, 0, 0, 0);
+            if (date.getTime() === today.getTime()) {
+                return timePart;
+            } else {
+                return dateString;
+            }
+        },
+
 
         lastMessage(data) {
             if (data === null || data.length === 0) {
@@ -222,7 +203,11 @@ export default {
         connectToChatHub() {
             const userId = this.userInfo.id;
             this.connection = new signalR.HubConnectionBuilder()
-                .withUrl(path.chatUrl + "chatHub?userId=" + userId)
+                .withUrl(path.chatUrl + "chatHub?userId=" + userId, {
+                    skipNegotiation: true,
+                    transport: signalR.HttpTransportType.WebSockets
+                })
+                .configureLogging(signalR.LogLevel.Information)
                 .build();
 
             this.connection.start().then(() => {
@@ -398,12 +383,12 @@ body {
     background-color: #e4e4e4;
 }
 
-.header-avatar {
+.message-data-avatar {
     display: inline-block;
     padding: 5px;
 }
 
-.header-avatar img {
+.message-data-avatar img {
     width: 40px;
     height: 40px;
     border-radius: 50%;

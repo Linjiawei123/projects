@@ -16,7 +16,7 @@
                     <template #default="scope">
                         <div style="display: inline; align-items: center">
                             <el-avatar style="margin-left: 10px"
-                                :src="scope.row.url ?? require('../../../assets/avater.png')" />
+                                :src="this.$fileUrl(scope.row.url) ?? require('../../../assets/avater.png')" />
                         </div>
                     </template>
                 </el-table-column>

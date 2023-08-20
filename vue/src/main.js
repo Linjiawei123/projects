@@ -10,6 +10,7 @@ import axios from "axios"
 import 'video.js/dist/video-js.css'
 import locale from 'element-plus/lib/locale/lang/zh-cn'
 import { isHasRgihts } from './js/isHasRgihts'
+import { fileUrl } from './js/fileUrl'
 
 
 const app = createApp(App)
@@ -26,5 +27,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 app.use(ElementPlus, { locale });
 
 app.config.globalProperties.$isHasRgihts = isHasRgihts
+
+app.config.globalProperties.$fileUrl = fileUrl
 
 app.mount('#app')

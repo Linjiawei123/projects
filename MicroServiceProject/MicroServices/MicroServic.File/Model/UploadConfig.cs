@@ -52,9 +52,17 @@
     public class UploadSetting
     {
         /// <summary>
-        /// 
+        /// ffmpeg程序路径
         /// </summary>
         public string FFmpegPath { get; set; }
+        /// <summary>
+        /// 静态路径
+        /// </summary>
+        public string FileProvider { get; set; }
+        /// <summary>
+        /// 返回路径
+        /// </summary>
+        public string RequestPath { get; set; }
         /// <summary>
         /// 上传模型集
         /// </summary>
