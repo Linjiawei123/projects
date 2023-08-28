@@ -17,6 +17,7 @@
 import axios from '../api/instance';
 import path from '../api/path'
 import md5 from '../js/md5'
+import { startTokenRefreshTimer } from '../js/tokenRefresh'
 export default {
   name: 'LoginView',
   data() {
@@ -31,10 +32,11 @@ export default {
         account: this.Account,
         password: md5.hexMD5(this.Password)
       }).then(res => {
-        this.$store.commit('setToken', res.data.data.access_token);
+        this.$store.commit('setToken', res.data.data);
+        startTokenRefreshTimer(this.tokenRefreshTimer);
         setTimeout(() => {
           this.$router.push('/home');
-        })
+        });
       }).catch(err => {
         console.log(err);
       })

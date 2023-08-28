@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <!--<Nullable>enable</Nullable>-->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EPRPlatform.API.Dto\EPRPlatform.API.Dto.csproj" />
+    <ProjectReference Include="..\EPRPlatform.API.Interfaces\EPRPlatform.API.Interfaces.csproj" />
+    <ProjectReference Include="..\EPRPlatform.API.Method\EPRPlatform.API.Method.csproj" />
+    <ProjectReference Include="..\EPRPlatform.API.Models\EPRPlatform.API.Models.csproj" />
+    <ProjectReference Include="..\EPRPlatform.API.Repository\EPRPlatform.API.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

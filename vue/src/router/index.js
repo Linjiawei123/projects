@@ -40,18 +40,42 @@ const routes = [
         path: 'operateLog',
         name: 'operateLog',
         component: () => import('../views/System/Logs/OperateLog.vue')
-      },{
-        path:'employee',
-        name:'employee',
-        component:()=>import('../views/Administrative/Employee/Employee.vue')
+      }, {
+        path: 'employee',
+        name: 'employee',
+        component: () => import('../views/Administrative/Employee/Employee.vue')
+      }, {
+        path: 'inventoryType',
+        name: 'inventoryType',
+        component: () => import('../views/Base/Inventory/InventoryType.vue')
+      }, {
+        path: 'depType',
+        name: 'depType',
+        component: () => import('../views/Base/Dep/DepType.vue')
+      }, {
+        path: 'costType',
+        name: 'costType',
+        component: () => import('../views/Base/Cost/CostType.vue')
+      }, {
+        path: 'inven',
+        name: 'inven',
+        component: () => import('../views/Base/Inventory/Inven.vue')
+      }, {
+        path: 'supplier',
+        name: 'supplier',
+        component: () => import('../views/Base/Supplier.vue')
+      }, {
+        path: 'customer',
+        name: 'customer',
+        component: () => import('../views/Base/Customer.vue')
       }
     ]
   }, {
     path: '/video',
     component: () => import('../views/Common/Video.vue')
   }, {
-    path: '/Chat',
-    component: () => import('../views/Chat/ChatPopup.vue')
+    path: '/table',
+    component: () => import('../components/CommonTable.vue')
   }
 ]
 

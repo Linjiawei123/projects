@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "EPRPlatform.API.Method": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:53012;http://localhost:53016"
+    }
+  }
+}

@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<DocumentationFile>obj\EPRPlatform.API.Host.xml</DocumentationFile>
+		<UserSecretsId>7b75ad2e-d7e8-42a9-9d50-2fb141305d89</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..</DockerfileContext>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="Controllers\WebSocket\**" />
+		<Compile Remove="Data\**" />
+		<Compile Remove="Interfaces\**" />
+		<Content Remove="Controllers\WebSocket\**" />
+		<Content Remove="Data\**" />
+		<Content Remove="Interfaces\**" />
+		<EmbeddedResource Remove="Controllers\WebSocket\**" />
+		<EmbeddedResource Remove="Data\**" />
+		<EmbeddedResource Remove="Interfaces\**" />
+		<None Remove="Controllers\WebSocket\**" />
+		<None Remove="Data\**" />
+		<None Remove="Interfaces\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.7" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.2" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Infrastructure\EPRPlatform.API.Dto\EPRPlatform.API.Dto.csproj" />
+	  <ProjectReference Include="..\..\Infrastructure\EPRPlatform.API.Dictionary\EPRPlatform.API.Dictionary.csproj" />
+	  <ProjectReference Include="..\..\Infrastructure\EPRPlatform.API.Extend\EPRPlatform.API.Extend.csproj" />
+	  <ProjectReference Include="..\..\Infrastructure\EPRPlatform.API.Interfaces\EPRPlatform.API.Interfaces.csproj" />
+	  <ProjectReference Include="..\..\Infrastructure\EPRPlatform.API.Method\EPRPlatform.API.Method.csproj" />
+	  <ProjectReference Include="..\..\Infrastructure\EPRPlatform.API.Models\EPRPlatform.API.Models.csproj" />
+	  <ProjectReference Include="..\..\Infrastructure\EPRPlatform.API.Repository\EPRPlatform.API.Repository.csproj" />
+	</ItemGroup>
+
+</Project>

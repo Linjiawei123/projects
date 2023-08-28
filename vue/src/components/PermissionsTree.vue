@@ -82,11 +82,13 @@ export default {
     width: calc(100% - 10px);
     max-width: 900px;
     min-height: 300px;
+    max-height: 500px;
     margin-top: 10px;
     margin-bottom: 10px;
     border-radius: 3px;
     padding: 5px;
     border: 1px solid #bbbbbb;
+    overflow: auto
 }
 
 :deep(.el-tree) {

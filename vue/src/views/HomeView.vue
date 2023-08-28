@@ -3,7 +3,7 @@
         <el-container class="menu-container">
             <el-header class="header-menu">
                 <div class="header-left">
-                    <div class="header-title">后台管理系统</div>
+                    <div class="header-title">ERP系统</div>
                     <div class="toggle-button" @click="toggleCollapse">
                         <el-icon v-if="toggle" size="20">
                             <CaretLeft />
@@ -23,15 +23,6 @@
                     </el-menu-item>
                 </el-menu>
                 <div class="h-6" />
-                <div class="chat">
-                    <el-button type="success" circle @click="toggleChat"><el-icon>
-                            <ChatDotRound />
-                        </el-icon>
-                        <teleport to="body">
-                            <chatPopup v-if="showChat" @minimize="toggleChat" />
-                        </teleport>
-                    </el-button>
-                </div>
                 <el-dropdown class="user">
                     <div class="userinfo">
                         <el-avatar class="user-avatar"
@@ -102,7 +93,7 @@ import path from '../api/path'
 import { mapState } from 'vuex'
 import tagsView from '../components/TagsView.vue'
 import userInfo from './System/UserInfo.vue'
-import chatPopup from './Chat/ChatPopup.vue'
+import { destroyTokenRefreshTimer } from '../js/tokenRefresh'
 
 export default {
     name: "HomeView",
@@ -156,6 +147,7 @@ export default {
             }
         },
         handleSelect(menu) {
+            this.$store.state.menuActiveIndex = menu.id;
             if (menu.url != null && menu.url != '') {
                 this.$router.push(menu.url);
                 this.$store.commit("pushtags", menu);
@@ -178,6 +170,7 @@ export default {
         clickLoginOut() {
             this.$store.commit('delToken');
             this.$router.push('/');
+            destroyTokenRefreshTimer(this.tokenRefreshTimer);
         },
         toggleChat() {
             this.showChat = !this.showChat;
@@ -186,9 +179,10 @@ export default {
     components: {
         IconMenu,
         tagsView,
-        userInfo,
-        ChatDotRound,
-        chatPopup
+        userInfo
+    },
+    beforeDestroy() {
+        destroyTokenRefreshTimer(this.tokenRefreshTimer);
     }
 }
 </script>
@@ -285,13 +279,6 @@ export default {
     outline: 0;
 }
 
-.chat {
-    float: right;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .user {
     width: 15%;
     height: 100%;
@@ -343,7 +330,7 @@ export default {
 }
 
 .breadcrumb {
-    width: calc(100% - 10px);
+    width: calc(100% - 15px);
     height: 30px;
     margin: 5px 5px 0px 5px;
     padding: 2px;
@@ -353,8 +340,8 @@ export default {
 }
 
 .mainview {
-    width: 100%;
-    height: calc(100% - 45px);
+    width: calc(100% - 20px);
+    height: calc(100% - 50px);
     padding: 5px;
 }
 </style>

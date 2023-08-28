@@ -10,7 +10,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
     config => {
-        config.headers.Authorization =  'Bearer ' + store.getters.getToken;
+        config.headers.Authorization = 'Bearer ' + store.getters.getToken;
         return config;
     },
     error => {
@@ -20,7 +20,17 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
     response => {
-        return response.status == 200 ? response : Promise.reject(response.data.message)
+        if (response.status == 200 && response.data.status === true)
+            return response;
+        else if (response.status == 200 && response.data.status === false)
+            ElMessage({
+                message: response.data.message,
+                duration: 3000,
+                showclose: true,
+                type: 'error'
+            });
+        else
+            return Promise.reject(response.data.message)
     },
     error => {
         if (error.response.status) {
@@ -36,36 +46,13 @@ instance.interceptors.response.use(
                         }
                     });
                     break;
-
-                // // 403 token过期
-                // // 登录过期对用户进行提示
-                // // 清除本地token和清空vuex中token对象
-                // // 跳转登录页面                
-                // case 403:
-                //     ElMessage({
-                //         message: '登录过期，请重新登录',
-                //         duration: 3000,
-                //         showclose: true,
-                //         type:'error'
-                //     });
-                //     this.$store.commit('delToken');
-                //     // 跳转登录页面，并将要浏览的页面fullPath传过去，登录成功后跳转需要访问的页面 
-                //     setTimeout(() => {
-                //         this.$router.replace({
-                //             path: '/',
-                //             query: {
-                //                 redirect: this.$router.currentRoute.fullPath
-                //             }
-                //         });
-                //     }, 1000);
-                //     break;
                 // 403 无操作权限               
                 case 403:
                     ElMessage({
                         message: '无此操作权限',
                         duration: 3000,
                         showclose: true,
-                        type:'error'
+                        type: 'error'
                     });
                     break;
 
@@ -75,7 +62,16 @@ instance.interceptors.response.use(
                         message: '网络请求不存在',
                         duration: 3000,
                         showclose: true,
-                        type:'error'
+                        type: 'error'
+                    });
+                    break;
+                // 502服务器错误
+                case 502:
+                    ElMessage({
+                        message: '服务器错误',
+                        duration: 3000,
+                        showclose: true,
+                        type: 'error'
                     });
                     break;
                 // 其他错误，直接抛出错误提示
@@ -84,7 +80,7 @@ instance.interceptors.response.use(
                         message: error.response.data.message,
                         duration: 3000,
                         showclose: true,
-                        type:'error'
+                        type: 'error'
                     });
             }
             return Promise.reject(error.response);

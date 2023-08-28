@@ -4,7 +4,8 @@ import router from '../router/index.js'
 
 export default createStore({
   state: {
-    token: "",
+    token: '',
+    refresh_token: '',
     userInfo: {},
     menuActiveIndex: '',
     tags: [
@@ -21,13 +22,17 @@ export default createStore({
     },
     getUserInfo(userInfo) {
       return userInfo;
+    },
+    getRefresh_token(state){
+      return state.refresh_token || storage.getStr("refresh_token") || "";
     }
   },
   mutations: {
-    setToken(state, token) {
-      state.token = token;
-      storage.setStr('token', token);
-      // console.log('store、localstorage保存token成功！');
+    setToken(state, data) {
+      state.token = data.access_token;
+      state.refresh_token = data.refresh_token;
+      storage.setStr('token', data.access_token);
+      storage.setStr('refresh_token', data.refresh_token);
     },
     delToken(state) {
       state.token = "";

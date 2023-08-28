@@ -1,0 +1,179 @@
+﻿using AutoMapper;
+using EPRPlatform.API.Dto;
+using EPRPlatform.API.Dto.BaseModels;
+using EPRPlatform.API.Dto.PublicModels;
+using EPRPlatform.API.Extend;
+using EPRPlatform.API.Interfaces;
+using EPRPlatform.API.Models;
+using EPRPlatform.API.Models.Base;
+using Microsoft.AspNetCore.Mvc;
+using System.Net;
+
+namespace EPRPlatform.API.Base.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class BSCustomerController : ControllerBase
+    {
+        private readonly IErrorRepository _iError;
+        private readonly IBSCustomerRepository _iBSCustomer;
+        public BSCustomerController(IErrorRepository iError, IBSCustomerRepository iBSCustomer)
+        {
+            try
+            {
+                _iError = iError;
+                _iBSCustomer = iBSCustomer;
+            }
+            catch (Exception ex)
+            {
+                _iError.AddErrorAsync(ex).Wait();
+            }
+        }
+        /// <summary>
+        /// 获取类型
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("GetType")]
+        public async Task<OutPutModel<CUTypeSimple>> GetTypesAsync()
+        {
+            try
+            {
+                CUTypeSimple data = await _iBSCustomer.GetOtherAsync();
+                return OutPutMethod<CUTypeSimple>.Success(data, 0);
+            }
+            catch (Exception ex)
+            {
+                await _iError.AddErrorAsync(ex);
+                return OutPutMethod<CUTypeSimple>.Failure();
+            }
+        }
+        /// <summary>
+        /// 获取分页
+        /// </summary>
+        /// <param name="CustomerCode">供应商编号</param>
+        /// <param name="CustomerName">供应商名称</param>
+        /// <param name="TelephoneCode">联系电话</param>
+        /// <param name="Email">邮箱</param>
+        /// <param name="PostCode">邮政编码</param>
+        /// <param name="Linkman">联系人</param>
+        /// <param name="Url">网址</param>
+        /// <param name="Address">地址</param>
+        /// <param name="pageSize">每页记录数</param>
+        /// <param name="pageIndex">页码</param>
+        /// <returns></returns>
+        [HttpPost("{pageSize}/{pageIndex}")]
+        public async Task<OutPutModel<PageModel<List<BSCustomer>>>> GetPageAsync([FromForm] string CustomerCode, [FromForm] string CustomerName, [FromForm] string TelephoneCode,
+            [FromForm] string Email, [FromForm] string PostCode, [FromForm] string Linkman, [FromForm] string Url, [FromForm] string Address, short pageSize, int pageIndex)
+        {
+            try
+            {
+                PageModel<List<BSCustomer>> page = await _iBSCustomer.GetPageAsync(CustomerCode, CustomerName, TelephoneCode,
+            Email, PostCode, Linkman, Url, Address, pageSize, pageIndex);
+                return OutPutMethod<PageModel<List<BSCustomer>>>.Success(page, 0);
+            }
+            catch (Exception ex)
+            {
+                await _iError.AddErrorAsync(ex);
+                return OutPutMethod<PageModel<List<BSCustomer>>>.Failure();
+            }
+        }
+        /// <summary>
+        /// 获取详情
+        /// </summary>
+        /// <param name="Id">数据id</param>
+        /// <returns></returns>
+        [HttpGet("{Id}")]
+        public async Task<OutPutModel<BSCustomer>> GetAsync(long Id)
+        {
+            try
+            {
+                BSCustomer data = await _iBSCustomer.GetAsync(Id);
+                if (data == null)
+                    return OutPutMethod<BSCustomer>.Failure("数据不存在", null, (int)HttpStatusCode.BadRequest);
+                return OutPutMethod<BSCustomer>.Success(data, 0);
+            }
+            catch (Exception ex)
+            {
+                await _iError.AddErrorAsync(ex);
+                return OutPutMethod<BSCustomer>.Failure();
+            }
+        }
+        /// <summary>
+        /// 新增
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [ModelFilter]
+        public async Task<OutPutModel<object>> AddAsync([FromBody] BSCustomerAdd input)
+        {
+            try
+            {
+                if (await _iBSCustomer.AnyAsync(input.CustomerCode))
+                    return OutPutMethod<object>.Failure("编码重复，请重新设置", null, (int)HttpStatusCode.BadRequest);
+                MapperConfiguration config = new(cfg =>
+                {
+                    cfg.CreateMap<BSCustomerAdd, BSCustomer>();
+                });
+                IMapper mapper = config.CreateMapper();
+                BSCustomer obj = mapper.Map<BSCustomer>(input);
+                return await _iBSCustomer.AddAsync(obj) ? OutPutMethod<object>.Success() : OutPutMethod<object>.Failure();
+            }
+            catch (Exception ex)
+            {
+                await _iError.AddErrorAsync(ex);
+                return OutPutMethod<object>.Failure();
+            }
+        }
+        /// <summary>
+        /// 修改
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut]
+        [ModelFilter]
+        public async Task<OutPutModel<object>> UpdateAsync([FromBody] BSCustomerUpdate input)
+        {
+            try
+            {
+                BSCustomer data = await _iBSCustomer.GetAsync(input.Id);
+                if (data == null)
+                    return OutPutMethod<object>.Failure("数据不存在", null, (int)HttpStatusCode.BadRequest);
+                if (data.CustomerCode != input.CustomerCode && await _iBSCustomer.AnyAsync(input.CustomerCode))
+                    return OutPutMethod<object>.Failure("编码重复，请重新设置", null, (int)HttpStatusCode.BadRequest);
+                MapperConfiguration config = new(cfg =>
+                {
+                    cfg.CreateMap<BSCustomerUpdate, BSCustomer>();
+                });
+                IMapper mapper = config.CreateMapper();
+                BSCustomer obj = mapper.Map<BSCustomer>(input);
+                return await _iBSCustomer.UpdateAsync(obj) ? OutPutMethod<object>.Success() : OutPutMethod<object>.Failure();
+            }
+            catch (Exception ex)
+            {
+                await _iError.AddErrorAsync(ex);
+                return OutPutMethod<object>.Failure();
+            }
+        }
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="Id">数据id</param>
+        /// <returns></returns>
+        [HttpDelete("{Id}")]
+        public async Task<OutPutModel<object>> DeleteAsync(long Id)
+        {
+            try
+            {
+                BSCustomer data = await _iBSCustomer.GetAsync(Id);
+                if (data == null)
+                    return OutPutMethod<object>.Failure("数据不存在", null, (int)HttpStatusCode.BadRequest);
+
+                return await _iBSCustomer.DeleteAsync(data) ? OutPutMethod<object>.Success() : OutPutMethod<object>.Failure();
+            }
+            catch (Exception ex)
+            {
+                await _iError.AddErrorAsync(ex);
+                return OutPutMethod<object>.Failure();
+            }
+        }
+    }
+}
