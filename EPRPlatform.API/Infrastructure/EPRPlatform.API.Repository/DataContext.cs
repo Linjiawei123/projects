@@ -167,6 +167,14 @@ namespace EPRPlatform.API.Repository
             {
                 entity.ToTable("CUTrade");
             });
+            modelBuilder.Entity<INEduLevel>(entity =>
+            {
+                entity.ToTable("INEduLevel");
+            });
+            modelBuilder.Entity<INSex>(entity =>
+            {
+                entity.ToTable("INSex");
+            });
             #endregion
         }
         #region 自定义方法

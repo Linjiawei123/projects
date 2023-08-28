@@ -17,6 +17,7 @@ namespace EPRPlatform.API.Repository
         private readonly DbSet<CUState> _cuStateSet;
         private readonly DbSet<CUCredit> _cuCreditSet;
         private readonly DbSet<CUTrade> _cuTradeSet;
+        private readonly DbSet<BSEmployee> _bSEmployeeSet;
         public BSCustomerRepository(DataContext context)
         {
             _context = context;
@@ -25,6 +26,7 @@ namespace EPRPlatform.API.Repository
             _cuStateSet = _context.Set<CUState>();
             _cuCreditSet = _context.Set<CUCredit>();
             _cuTradeSet = _context.Set<CUTrade>();
+            _bSEmployeeSet = _context.Set<BSEmployee>();
         }
 
         public async Task<PageModel<List<BSCustomer>>> GetPageAsync(string CustomerCode, string CustomerName, string TelephoneCode,
@@ -80,6 +82,7 @@ namespace EPRPlatform.API.Repository
         {
             _context.Attach(obj);
             _context.Entry(obj).State = EntityState.Modified;
+            _context.Entry(obj).Property(e => e.Id).IsModified = false;
             return await _context.SaveChangesAsync() > 0;
         }
 
@@ -101,7 +104,8 @@ namespace EPRPlatform.API.Repository
                 Grade = await _cuGradeSet.OrderBy(w=>w.GradeCode).ToListAsync(),
                 State = await _cuStateSet.OrderBy(w=>w.StateCode).ToListAsync(),
                 Credit = await _cuCreditSet.OrderBy(c=>c.CreditCode).ToListAsync(),
-                Trade = await _cuTradeSet.OrderBy(w=>w.TradeCode).ToListAsync()
+                Trade = await _cuTradeSet.OrderBy(w=>w.TradeCode).ToListAsync(),
+                Employees = await _bSEmployeeSet.OrderBy(w=>w.EmployeeCode).ToListAsync()
             };
 
             return cuTypeSimple;

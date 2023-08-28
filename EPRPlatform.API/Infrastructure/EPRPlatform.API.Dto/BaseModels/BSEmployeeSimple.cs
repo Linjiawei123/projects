@@ -9,4 +9,10 @@ namespace EPRPlatform.API.Dto.BaseModels
         /// </summary>
         public string DepartmentName { get; set; }
     }
+    public class INSimple
+    {
+        public List<INEduLevel> eduLevel { get; set; }
+        public List<INSex> sex { get; set; }
+        public List<BSDepartment> department { get; set; }
+    }
 }

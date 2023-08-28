@@ -1,4 +1,5 @@
-﻿using EPRPlatform.API.Dto.BaseModels;
+﻿using AngleSharp.Dom;
+using EPRPlatform.API.Dto.BaseModels;
 using EPRPlatform.API.Interfaces;
 using EPRPlatform.API.Method;
 using EPRPlatform.API.Method.EFCore;
@@ -13,10 +14,16 @@ namespace EPRPlatform.API.Repository
     {
         private readonly DataContext _context;
         private readonly DbSet<BSEmployee> _bSEmployeeSet;
+        private readonly DbSet<INEduLevel> _iNEduLevelSet;
+        private readonly DbSet<INSex> _iNSexSet;
+        private readonly DbSet<BSDepartment> _bsDepartmentSet;
         public BSEmployeeRepository(DataContext context)
         {
             _context = context;
             _bSEmployeeSet = _context.Set<BSEmployee>();
+            _iNEduLevelSet = _context.Set<INEduLevel>();
+            _iNSexSet = _context.Set<INSex>();
+            _bsDepartmentSet = _context.Set<BSDepartment>();
         }
 
         public async Task<PageModel<List<BSEmployeeSimple>>> GetPageAsync(string EmployeeCode, string EmployeeName, string TelephoneCode, short pageSize, int pageIndex)
@@ -42,7 +49,7 @@ namespace EPRPlatform.API.Repository
             if (!string.IsNullOrEmpty(TelephoneCode))
                 exp = exp.And(w => w.TelephoneCode == TelephoneCode);
             return _bSEmployeeSet.AsNoTracking().Where(exp)
-                .GroupJoin(_context.Set<BSDepartment>(), p => p.DepartmentCode, q => q.DepartmentCode,
+                .GroupJoin(_bsDepartmentSet, p => p.DepartmentCode, q => q.DepartmentCode,
                 (p, q) => new { Employee = p, DepartmentGroup = q })
                 .SelectMany(x => x.DepartmentGroup.DefaultIfEmpty(), (x, department) => new BSEmployeeSimple
                 {
@@ -65,7 +72,7 @@ namespace EPRPlatform.API.Repository
         public async Task<BSEmployeeSimple> GetAsync(long Id)
         {
             return await _bSEmployeeSet.AsNoTracking().Where(w => w.Id == Id)
-                .GroupJoin(_context.Set<BSDepartment>(), p => p.DepartmentCode, q => q.DepartmentCode,
+                .GroupJoin(_bsDepartmentSet, p => p.DepartmentCode, q => q.DepartmentCode,
                 (p, q) => new { Employee = p, DepartmentGroup = q })
                 .SelectMany(x => x.DepartmentGroup.DefaultIfEmpty(), (x, department) => new BSEmployeeSimple
                 {
@@ -94,6 +101,7 @@ namespace EPRPlatform.API.Repository
         {
             _context.Attach(obj);
             _context.Entry(obj).State = EntityState.Modified;
+            _context.Entry(obj).Property(e => e.Id).IsModified = false;
             return await _context.SaveChangesAsync() > 0;
         }
 
@@ -106,6 +114,16 @@ namespace EPRPlatform.API.Repository
         public async Task<bool> AnyAsync(string EmployeeCode)
         {
             return await _bSEmployeeSet.AnyAsync(w => w.EmployeeCode == EmployeeCode);
+        }
+
+        public async Task<INSimple> GetOtherAsync()
+        {
+            return new INSimple
+            {
+                eduLevel = await _iNEduLevelSet.ToListAsync(),
+                sex = await _iNSexSet.ToListAsync(),
+                department = await _bsDepartmentSet.ToListAsync()
+            };
         }
     }
 }

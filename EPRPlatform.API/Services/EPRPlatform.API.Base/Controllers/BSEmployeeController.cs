@@ -29,6 +29,19 @@ namespace EPRPlatform.API.Base.Controllers
                 _iError.AddErrorAsync(ex).Wait();
             }
         }
+        [HttpGet("dic")]
+        public async Task<OutPutModel<INSimple>> GetAsync()
+        {
+            try
+            {
+                INSimple data = await _iBSEmployee.GetOtherAsync();
+                return OutPutMethod<INSimple>.Success(data,0);
+            }catch (Exception ex)
+            {
+                await _iError.AddErrorAsync(ex);
+                return OutPutMethod<INSimple>.Failure();
+            }
+        }
 
         /// <summary>
         /// 获取分页

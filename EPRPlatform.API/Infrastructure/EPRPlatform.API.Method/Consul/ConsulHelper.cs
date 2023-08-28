@@ -17,11 +17,11 @@ namespace EPRPlatform.API.Method
         {
             ConsulClient client = new(c =>
             {
-                c.Address = new Uri("http://127.0.0.1:8500/");
+                c.Address = new Uri("http://192.168.127.16:8500/");
                 c.Datacenter = "dc1";
             });
-            string ip = string.IsNullOrWhiteSpace(configuration["ip"]) ? "127.0.0.1" : configuration["ip"];
-            //string ip = "127.0.0.1";
+            string ip = string.IsNullOrWhiteSpace(configuration["ip"]) ? "192.168.127.16" : configuration["ip"];
+            //string ip = "192.168.127.16";
             int port = int.Parse(configuration["port"]);//命令行参数必须传入
             int weight = string.IsNullOrWhiteSpace(configuration["weight"]) ? 1 : int.Parse(configuration["weight"]);
             string serviceID = "service" + Guid.NewGuid();

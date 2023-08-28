@@ -46,5 +46,6 @@ namespace EPRPlatform.API.Interfaces
         /// <param name="EmployeeCode">存货编号</param>
         /// <returns></returns>
         Task<bool> AnyAsync(string EmployeeCode);
+        Task<INSimple> GetOtherAsync();
     }
 }

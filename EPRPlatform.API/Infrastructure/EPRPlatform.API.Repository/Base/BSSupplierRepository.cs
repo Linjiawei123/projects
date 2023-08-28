@@ -77,6 +77,7 @@ namespace EPRPlatform.API.Repository
         {
             _context.Attach(obj);
             _context.Entry(obj).State = EntityState.Modified;
+            _context.Entry(obj).Property(e => e.Id).IsModified = false;
             return await _context.SaveChangesAsync() > 0;
         }
 

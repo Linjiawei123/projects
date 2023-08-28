@@ -30,5 +30,9 @@ namespace EPRPlatform.API.Dto.BaseModels
         /// 行业
         /// </summary>
         public List<CUTrade> Trade { get; set; }
+        /// <summary>
+        /// 员工
+        /// </summary>
+        public List<BSEmployee> Employees { get; set; }
     }
 }
