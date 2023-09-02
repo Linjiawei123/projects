@@ -117,11 +117,7 @@ namespace EPRPlatform.API.Repository
         /// <returns></returns>
         public async Task<List<UserRights>> GetUserRightsAsync(Guid UserId)
         {
-            var list = await _userRightsSet.AsNoTracking().Where(w => w.UserId == UserId).ToListAsync();
-            if (list != null && list.Count > 0)
-                return list;
-            else
-                return new List<UserRights>();
+            return await _userRightsSet.AsNoTracking().Where(w => w.UserId == UserId).ToListAsync();
         }
         /// <summary>
         /// 获取用户菜单
@@ -130,16 +126,7 @@ namespace EPRPlatform.API.Repository
         /// <returns></returns>
         public async Task<List<Menu>> GetUserMenusAsync(Guid UserId)
         {
-            var rlist = await _userRightsSet.AsNoTracking().Where(w => w.UserId == UserId).ToListAsync();
-            if (rlist != null && rlist.Count > 0)
-            {
-                var mlist = rlist.Select(w => w.MenuId).ToList();
-                if (mlist.Count > 0)
-                {
-                    return await _menuSet.AsNoTracking().Where(w => mlist.Contains(w.Id)).OrderBy(w => w.Sort).ToListAsync();
-                }
-            }
-            return new List<Menu>();
+            return await _menuSet.AsNoTracking().Where(w=>_userRightsSet.Where(r=>r.UserId== UserId).Select(r=>r.MenuId).Contains(w.Id)).ToListAsync();
         }
         /// <summary>
         /// 根据刷新token获取登录信息

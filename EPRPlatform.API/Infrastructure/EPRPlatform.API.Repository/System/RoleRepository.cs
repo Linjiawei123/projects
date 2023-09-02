@@ -49,7 +49,7 @@ namespace EPRPlatform.API.Repository
             Expression<Func<Role, bool>> exp = w => true;
             if (!string.IsNullOrWhiteSpace(Keyword))
                 exp = exp.And(w => w.Name.Contains(Keyword));
-            return _roleSet.AsNoTracking().Where(exp).Include(w=>w.Rights).OrderBy(w => w.Code).ThenBy(w=>w.Status==true).ThenBy(w=>w.Id);
+            return _roleSet.AsNoTracking().Where(exp).Include(w => w.Rights).OrderBy(w => w.Code).ThenBy(w => w.Status == true).ThenBy(w => w.Id);
         }
 
         /// <summary>
@@ -154,14 +154,15 @@ namespace EPRPlatform.API.Repository
         /// <returns></returns>
         public async Task<List<RoleUserInfo>> GetRoleAndUserAsync(Guid RoleId)
         {
-            return await _roleAndUserSet.AsNoTracking().Join(_userSet, r => r.UserId, u => u.Id, (r, u) => new RoleUserInfo()
-            {
-                Id = r.Id,
-                RoleId = r.RoleId,
-                UserId = r.UserId,
-                Account = u.Account,
-                Name = u.Name
-            }).Where(w => w.RoleId == RoleId).OrderBy(w => w.UserId).ToListAsync();
+            return await _roleAndUserSet.AsNoTracking()
+                .Join(_userSet, r => r.UserId, u => u.Id, (r, u) => new RoleUserInfo()
+                {
+                    Id = r.Id,
+                    RoleId = r.RoleId,
+                    UserId = r.UserId,
+                    Account = u.Account,
+                    Name = u.Name
+                }).Where(w => w.RoleId == RoleId).OrderBy(w => w.UserId).ToListAsync();
         }
 
         /// <summary>
@@ -181,7 +182,7 @@ namespace EPRPlatform.API.Repository
         /// <returns></returns>
         public async Task<List<RoleAndUser>> GetRoleUsersAsync(Guid RoleId)
         {
-            return await _roleAndUserSet.AsNoTracking().Where(w=>w.RoleId == RoleId).ToListAsync();
+            return await _roleAndUserSet.AsNoTracking().Where(w => w.RoleId == RoleId).ToListAsync();
         }
 
         /// <summary>
@@ -195,7 +196,7 @@ namespace EPRPlatform.API.Repository
             try
             {
                 using var tran = _context.Database.BeginTransaction();
-                if (addlist != null&&addlist.Count>0)
+                if (addlist != null && addlist.Count > 0)
                     _roleAndUserSet.AddRange(addlist);
                 if (dellist != null && dellist.Count > 0)
                     _roleAndUserSet.RemoveRange(dellist);

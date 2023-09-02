@@ -35,15 +35,16 @@ namespace EPRPlatform.API.Repository
         public async Task<List<MenuRights>> GetMenuRightsAsync()
         {
             Expression<Func<Menu, bool>> exp = w => true;
-            var ml = await _menuSet.AsNoTracking().Where(exp).OrderBy(w => w.Sort).ToListAsync();
-            var pl = await _permissionSet.AsNoTracking().ToListAsync();
-            MapperConfiguration config = new(cfg =>
-            {
-                cfg.CreateMap<Menu, MenuRights>()
-                .ForMember(q => q.Rights, p => p.MapFrom(w => pl.FindAll(e => e.MenuId == w.Id).ToList()));
-            });
-            IMapper mapper = config.CreateMapper();
-            return mapper.Map<List<MenuRights>>(ml);
+            return await _menuSet.AsNoTracking().Where(exp)
+                .Select(m => new MenuRights
+                {
+                    Id = m.Id,
+                    ParentId = m.ParentId,
+                    Code = m.Code,
+                    Name = m.Name,
+                    Sort = m.Sort,
+                    Rights = _permissionSet.Where(w=>w.MenuId==m.Id).ToList()
+                }).ToListAsync();
         }
 
         /// <summary>

@@ -82,6 +82,8 @@ builder.Host.ConfigureContainer<ContainerBuilder>((context, containerBuilder) =>
     containerBuilder.RegisterType<BSSupplierRepository>().As<IBSSupplierRepository>();
     containerBuilder.RegisterType<BSCustomerRepository>().As<IBSCustomerRepository>();
     containerBuilder.RegisterType<BSEmployeeRepository>().As<IBSEmployeeRepository>();
+    containerBuilder.RegisterType<BSCostRepository>().As<IBSCostRepository>();
+    containerBuilder.RegisterType<BSStoreRepository>().As<IBSStoreRepository>();
 });
 
 

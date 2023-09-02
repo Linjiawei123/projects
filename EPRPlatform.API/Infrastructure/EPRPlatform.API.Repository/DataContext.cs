@@ -175,6 +175,14 @@ namespace EPRPlatform.API.Repository
             {
                 entity.ToTable("INSex");
             });
+            modelBuilder.Entity<BSCost>(entity =>
+            {
+                entity.ToTable("BSCost");
+            });
+            modelBuilder.Entity<BSStore>(entity =>
+            {
+                entity.ToTable("BSStore");
+            });
             #endregion
         }
         #region 自定义方法

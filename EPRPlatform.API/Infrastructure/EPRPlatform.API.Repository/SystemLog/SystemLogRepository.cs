@@ -59,7 +59,8 @@ namespace EPRPlatform.API.Repository
             if (endTime.HasValue)
                 exp = exp.And(w => w.LoginTime < endTime.Value);
             return _loginLogSet.AsTracking().Where(exp)
-                .Join(_userSet.Where(userExp), p => p.UserId, q => q.Id, (p, q) => new UserLoginLogSimple { Id = p.Id, Account = q.Account, Name = q.Name, LoginTime = p.LoginTime, LoginIP = p.LoginIP })
+                .Join(_userSet.Where(userExp), p => p.UserId, q => q.Id, (p, q) => 
+                new UserLoginLogSimple { Id = p.Id, Account = q.Account, Name = q.Name, LoginTime = p.LoginTime, LoginIP = p.LoginIP })
                 .OrderByDescending(w => w.LoginTime);
         }
 
