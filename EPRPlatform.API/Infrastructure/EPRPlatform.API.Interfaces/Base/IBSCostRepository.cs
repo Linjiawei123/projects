@@ -14,8 +14,8 @@ namespace EPRPlatform.API.Interfaces
         /// <summary>
         /// 获取分页
         /// </summary>
-        /// <param name="CostCode">存货编码</param>
-        /// <param name="CostName">存货名称</param>
+        /// <param name="CostCode">费用编码</param>
+        /// <param name="CostName">费用名称</param>
         /// <param name="CostTypeCode">分类</param>
         /// <param name="pageSize">每页记录数</param>
         /// <param name="pageIndex">页码</param>
@@ -46,9 +46,9 @@ namespace EPRPlatform.API.Interfaces
         /// <returns></returns>
         Task<bool> DeleteAsync(BSCost obj);
         /// <summary>
-        /// 判断存货编号是否存在
+        /// 判断费用编号是否存在
         /// </summary>
-        /// <param name="CostCode">存货编号</param>
+        /// <param name="CostCode">费用编号</param>
         /// <returns></returns>
         Task<bool> AnyAsync(string CostCode);
     }

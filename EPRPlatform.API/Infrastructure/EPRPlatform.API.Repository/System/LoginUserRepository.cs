@@ -126,7 +126,7 @@ namespace EPRPlatform.API.Repository
         /// <returns></returns>
         public async Task<List<Menu>> GetUserMenusAsync(Guid UserId)
         {
-            return await _menuSet.AsNoTracking().Where(w=>_userRightsSet.Where(r=>r.UserId== UserId).Select(r=>r.MenuId).Contains(w.Id)).ToListAsync();
+            return await _menuSet.AsNoTracking().Where(w=>_userRightsSet.Where(r=>r.UserId== UserId).Select(r=>r.MenuId).Contains(w.Id)).OrderBy(w=>w.Sort).ToListAsync();
         }
         /// <summary>
         /// 根据刷新token获取登录信息

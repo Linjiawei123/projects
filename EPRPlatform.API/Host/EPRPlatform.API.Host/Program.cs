@@ -12,7 +12,6 @@ using Microsoft.Extensions.FileProviders;
 using EPRPlatform.API.Extend;
 using EPRPlatform.API.Dto.PublicModels;
 using EPRPlatform.API.Modles;
-using EPRPlatform.API.Extend.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;

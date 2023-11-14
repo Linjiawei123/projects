@@ -123,7 +123,7 @@ namespace EPRPlatform.API.Extend
         /// <param name="redisValue"></param>
         /// <param name="expired"></param>
         /// <returns></returns>
-        public async Task<bool> StringSetAsync<T>(string redisKey, string redisValue, TimeSpan? expired = null)
+        public async Task<bool> StringSetAsync<T>(string redisKey, T redisValue, TimeSpan? expired = null)
         {
             string json = JsonConvert.SerializeObject(redisValue);
             return await _db.StringSetAsync(redisKey, json, expired);
@@ -136,7 +136,10 @@ namespace EPRPlatform.API.Extend
         /// <returns></returns>
         public async Task<T> StringGetAsync<T>(string redisKey)
         {
-            return JsonConvert.DeserializeObject<T>(await _db.StringGetAsync(redisKey));
+            string res = await _db.StringGetAsync(redisKey);
+            if (string.IsNullOrWhiteSpace(res))
+                return default;
+            return JsonConvert.DeserializeObject<T>(res);
         }
         #endregion
 
@@ -816,7 +819,10 @@ namespace EPRPlatform.API.Extend
         /// <returns></returns>
         public bool KeyDelete(string redisKey)
         {
-            return _db.KeyDelete(redisKey);
+            if (_db.KeyExists(redisKey))
+                return _db.KeyDelete(redisKey);
+            else
+                return true;
         }
         /// <summary>
         /// 删除指定key
@@ -864,7 +870,10 @@ namespace EPRPlatform.API.Extend
         /// <returns></returns>
         public async Task<bool> KeyDeleteAsync(string redisKey)
         {
-            return await _db.KeyDeleteAsync(redisKey);
+            if (await _db.KeyExistsAsync(redisKey))
+                return await _db.KeyDeleteAsync(redisKey);
+            else
+                return true;
         }
         /// <summary>
         /// 删除指定的key

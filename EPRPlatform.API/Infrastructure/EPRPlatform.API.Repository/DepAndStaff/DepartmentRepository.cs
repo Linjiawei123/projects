@@ -50,18 +50,16 @@ namespace EPRPlatform.API.Repository
         /// <returns></returns>
         public async Task<bool> UpdateAsync(Department obj)
         {
-            using (var tran = _context.Database.BeginTransaction())
-            {
-                _context.Attach(obj);
-                _context.Entry(obj).Property(q => q.ParentId).IsModified = true;
-                _context.Entry(obj).Property(q => q.Name).IsModified = true;
-                _context.Entry(obj).Property(q => q.Code).IsModified = true;
-                _context.Entry(obj).Property(q => q.OperaterId).IsModified = true;
-                _context.Entry(obj).Property(q => q.OperateTime).IsModified = true;
-                await _context.SaveChangesAsync();
-                await tran.CommitAsync();
-                return true;
-            }
+            using var tran = _context.Database.BeginTransaction();
+            _context.Attach(obj);
+            _context.Entry(obj).Property(q => q.ParentId).IsModified = true;
+            _context.Entry(obj).Property(q => q.Name).IsModified = true;
+            _context.Entry(obj).Property(q => q.Code).IsModified = true;
+            _context.Entry(obj).Property(q => q.OperaterId).IsModified = true;
+            _context.Entry(obj).Property(q => q.OperateTime).IsModified = true;
+            await _context.SaveChangesAsync();
+            await tran.CommitAsync();
+            return true;
         }
         /// <summary>
         /// 删除

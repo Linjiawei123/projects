@@ -4,13 +4,18 @@
     <TargetFramework>net6.0</TargetFramework>
     <!--<Nullable>enable</Nullable>-->
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>68f2a2a6-ffbe-4a1b-98b8-114025e4da2d</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\EPRPlatform.API.Dictionary\EPRPlatform.API.Dictionary.csproj" />
     <ProjectReference Include="..\..\Infrastructure\EPRPlatform.API.Dto\EPRPlatform.API.Dto.csproj" />
     <ProjectReference Include="..\..\Infrastructure\EPRPlatform.API.Extend\EPRPlatform.API.Extend.csproj" />
     <ProjectReference Include="..\..\Infrastructure\EPRPlatform.API.Interfaces\EPRPlatform.API.Interfaces.csproj" />

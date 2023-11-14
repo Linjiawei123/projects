@@ -44,7 +44,7 @@ namespace EPRPlatform.API.Repository
                     Name = m.Name,
                     Sort = m.Sort,
                     Rights = _permissionSet.Where(w=>w.MenuId==m.Id).ToList()
-                }).ToListAsync();
+                }).OrderBy(w=>w.Sort).ToListAsync();
         }
 
         /// <summary>
@@ -75,25 +75,23 @@ namespace EPRPlatform.API.Repository
         /// <returns></returns>
         public async Task<bool> UpdateAsync(Menu obj)
         {
-            using (var tran = _context.Database.BeginTransaction())
-            {
-                _context.Attach(obj);
-                _context.Entry(obj).Property(q => q.ParentId).IsModified = true;
-                _context.Entry(obj).Property(q => q.Name).IsModified = true;
-                _context.Entry(obj).Property(q => q.Code).IsModified = true;
-                _context.Entry(obj).Property(q => q.Sort).IsModified = true;
-                _context.Entry(obj).Property(q => q.Url).IsModified = true;
-                _context.Entry(obj).Property(q => q.Icon).IsModified = true;
-                _context.Entry(obj).Property(q => q.Remark).IsModified = true;
-                _context.Entry(obj).Property(q => q.Grade).IsModified = true;
-                _context.Entry(obj).Property(q => q.IsDefault).IsModified = true;
-                _context.Entry(obj).Property(q => q.IsBlank).IsModified = true;
-                _context.Entry(obj).Property(q => q.OperaterId).IsModified = true;
-                _context.Entry(obj).Property(q => q.OperateTime).IsModified = true;
-                await _context.SaveChangesAsync();
-                await tran.CommitAsync();
-                return true;
-            }
+            using var tran = _context.Database.BeginTransaction();
+            _context.Attach(obj);
+            _context.Entry(obj).Property(q => q.ParentId).IsModified = true;
+            _context.Entry(obj).Property(q => q.Name).IsModified = true;
+            _context.Entry(obj).Property(q => q.Code).IsModified = true;
+            _context.Entry(obj).Property(q => q.Sort).IsModified = true;
+            _context.Entry(obj).Property(q => q.Url).IsModified = true;
+            _context.Entry(obj).Property(q => q.Icon).IsModified = true;
+            _context.Entry(obj).Property(q => q.Remark).IsModified = true;
+            _context.Entry(obj).Property(q => q.Grade).IsModified = true;
+            _context.Entry(obj).Property(q => q.IsDefault).IsModified = true;
+            _context.Entry(obj).Property(q => q.IsBlank).IsModified = true;
+            _context.Entry(obj).Property(q => q.OperaterId).IsModified = true;
+            _context.Entry(obj).Property(q => q.OperateTime).IsModified = true;
+            await _context.SaveChangesAsync();
+            await tran.CommitAsync();
+            return true;
         }
         /// <summary>
         /// 删除

@@ -41,13 +41,11 @@ namespace EPRPlatform.API.Repository
         /// <returns></returns>
         public async Task<bool> AddAsync(Permission obj)
         {
-            using (var tran = _context.Database.BeginTransaction())
-            {
-                _permissionSet.Add(obj);
-                await _context.SaveChangesAsync();
-                await tran.CommitAsync();
-                return true;
-            }
+            using var tran = _context.Database.BeginTransaction();
+            _permissionSet.Add(obj);
+            await _context.SaveChangesAsync();
+            await tran.CommitAsync();
+            return true;
         }
 
         /// <summary>
@@ -57,19 +55,17 @@ namespace EPRPlatform.API.Repository
         /// <returns></returns>
         public async Task<bool> UpdateAsync(Permission obj)
         {
-            using (var tran = _context.Database.BeginTransaction())
-            {
-                _context.Attach(obj);
-                _context.Entry(obj).Property(q => q.MenuId).IsModified = true;
-                _context.Entry(obj).Property(q => q.Name).IsModified = true;
-                _context.Entry(obj).Property(q => q.Code).IsModified = true;
-                _context.Entry(obj).Property(q => q.Remark).IsModified = true;
-                _context.Entry(obj).Property(q => q.OperaterId).IsModified = true;
-                _context.Entry(obj).Property(q => q.OperateTime).IsModified = true;
-                await _context.SaveChangesAsync();
-                await tran.CommitAsync();
-                return true;
-            }
+            using var tran = _context.Database.BeginTransaction();
+            _context.Attach(obj);
+            _context.Entry(obj).Property(q => q.MenuId).IsModified = true;
+            _context.Entry(obj).Property(q => q.Name).IsModified = true;
+            _context.Entry(obj).Property(q => q.Code).IsModified = true;
+            _context.Entry(obj).Property(q => q.Remark).IsModified = true;
+            _context.Entry(obj).Property(q => q.OperaterId).IsModified = true;
+            _context.Entry(obj).Property(q => q.OperateTime).IsModified = true;
+            await _context.SaveChangesAsync();
+            await tran.CommitAsync();
+            return true;
         }
 
         /// <summary>

@@ -9,8 +9,8 @@ namespace EPRPlatform.API.Interfaces
         /// <summary>
         /// 获取分页
         /// </summary>
-        /// <param name="EmployeeCode">供应商编号</param>
-        /// <param name="EmployeeName">供应商名称</param>
+        /// <param name="EmployeeCode">员工编号</param>
+        /// <param name="EmployeeName">员工名称</param>
         /// <param name="TelephoneCode">联系电话</param>
         /// <param name="pageSize">每页记录数</param>
         /// <param name="pageIndex">页码</param>

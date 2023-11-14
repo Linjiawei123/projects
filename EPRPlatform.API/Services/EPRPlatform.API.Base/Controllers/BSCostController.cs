@@ -53,15 +53,9 @@ namespace EPRPlatform.API.Base.Controllers
         /// <summary>
         /// 获取分页
         /// </summary>
-        /// <param name="CostCode">存货编码</param>
-        /// <param name="CostName">存货名称</param>
-        /// <param name="CostTypeCode">存货类别</param>
-        /// <param name="SpecsModel">规格型号</param>
-        /// <param name="MeaUnit">计量单位</param>
-        /// <param name="SelPrice">参考售价</param>
-        /// <param name="PurPrice">参考进价</param>
-        /// <param name="SmallStockNum">最低库存</param>
-        /// <param name="BigStockNum">最高库存</param>
+        /// <param name="CostCode">费用编码</param>
+        /// <param name="CostName">费用名称</param>
+        /// <param name="CostTypeCode">费用类别</param>
         /// <param name="pageSize">每页记录数</param>
         /// <param name="pageIndex">页码</param>
         /// <returns></returns>

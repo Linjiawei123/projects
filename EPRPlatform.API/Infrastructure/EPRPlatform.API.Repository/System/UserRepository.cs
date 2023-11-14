@@ -11,13 +11,11 @@ namespace EPRPlatform.API.Repository
     {
         private readonly DataContext _context;
         private readonly DbSet<User> _userSet;
-        private readonly DbSet<UserRights> _userRightsSet;
         private readonly DbSet<UserAndPermission> _userAndPermissionSet;
         public UserRepository(DataContext context)
         {
             _context = context;
             _userSet = _context.Set<User>();
-            _userRightsSet = _context.Set<UserRights>();
             _userAndPermissionSet = _context.Set<UserAndPermission>();
         }
 

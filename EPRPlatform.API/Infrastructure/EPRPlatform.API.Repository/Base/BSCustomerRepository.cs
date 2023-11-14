@@ -29,39 +29,26 @@ namespace EPRPlatform.API.Repository
             _bSEmployeeSet = _context.Set<BSEmployee>();
         }
 
-        public async Task<PageModel<List<BSCustomer>>> GetPageAsync(string CustomerCode, string CustomerName, string TelephoneCode,
-            string Email, string PostCode, string Linkman, string Url, string Address, short pageSize, int pageIndex)
+        public async Task<PageModel<List<BSCustomer>>> GetPageAsync(string CustomerCode, string CustomerName, short pageSize, int pageIndex)
         {
             if (pageSize <= 0)
                 pageSize = 10;
             if (pageIndex <= 0)
                 pageIndex = 10;
-            IQueryable<BSCustomer> query = GetQuery(CustomerCode, CustomerName, TelephoneCode,
-            Email, PostCode, Linkman, Url, Address);
+            IQueryable<BSCustomer> query = GetQuery(CustomerCode, CustomerName);
             int recordCount = await query.CountAsync();
             int pageCount = PublicMethods.GetPageCount(pageSize, recordCount);
             List<BSCustomer> pageData = await query.Skip(pageSize * (pageIndex - 1)).Take(pageSize).ToListAsync();
             return new PageModel<List<BSCustomer>> { RecordCount = recordCount, PageCount = pageCount, PageData = pageData };
         }
 
-        private IQueryable<BSCustomer> GetQuery(string CustomerCode, string CustomerName, string TelephoneCode,
-            string Email, string PostCode, string Linkman, string Url, string Address)
+        private IQueryable<BSCustomer> GetQuery(string CustomerCode, string CustomerName)
         {
             Expression<Func<BSCustomer, bool>> exp = w => true;
             if (!string.IsNullOrEmpty(CustomerCode))
                 exp = exp.And(w => w.CustomerCode == CustomerCode);
             if (!string.IsNullOrEmpty(CustomerName))
                 exp = exp.And(w => w.CustomerName.Contains(CustomerName));
-            if (!string.IsNullOrEmpty(TelephoneCode))
-                exp = exp.And(w=>w.TelephoneCode == TelephoneCode);
-            if (!string.IsNullOrEmpty(Email))
-                exp = exp.And(w=>w.Email == Email);
-            if (!string.IsNullOrEmpty(PostCode))
-                exp = exp.And(exp => exp.PostCode == PostCode);
-            if (!string.IsNullOrEmpty(Linkman))
-                exp = exp.And(w=>w.Linkman.Contains(Linkman));
-            if (!string.IsNullOrEmpty(Address))
-                exp = exp.And(w=> w.Address.Contains(Address));
 
             return _bSCustomerSet.AsNoTracking().Where(exp).OrderBy(w => w.CustomerCode);
         }
@@ -101,11 +88,11 @@ namespace EPRPlatform.API.Repository
         {
             var cuTypeSimple = new CUTypeSimple
             {
-                Grade = await _cuGradeSet.OrderBy(w=>w.GradeCode).ToListAsync(),
-                State = await _cuStateSet.OrderBy(w=>w.StateCode).ToListAsync(),
-                Credit = await _cuCreditSet.OrderBy(c=>c.CreditCode).ToListAsync(),
-                Trade = await _cuTradeSet.OrderBy(w=>w.TradeCode).ToListAsync(),
-                Employees = await _bSEmployeeSet.OrderBy(w=>w.EmployeeCode).ToListAsync()
+                Grade = await _cuGradeSet.OrderBy(w => w.GradeCode).ToListAsync(),
+                State = await _cuStateSet.OrderBy(w => w.StateCode).ToListAsync(),
+                Credit = await _cuCreditSet.OrderBy(c => c.CreditCode).ToListAsync(),
+                Trade = await _cuTradeSet.OrderBy(w => w.TradeCode).ToListAsync(),
+                Employees = await _bSEmployeeSet.OrderBy(w => w.EmployeeCode).ToListAsync()
             };
 
             return cuTypeSimple;

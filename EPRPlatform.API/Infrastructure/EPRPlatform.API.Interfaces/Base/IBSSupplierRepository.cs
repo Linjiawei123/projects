@@ -17,17 +17,10 @@ namespace EPRPlatform.API.Interfaces
         /// </summary>
         /// <param name="SupplierCode">供应商编号</param>
         /// <param name="SupplierName">供应商名称</param>
-        /// <param name="TelephoneCode">联系电话</param>
-        /// <param name="Email">邮箱</param>
-        /// <param name="PostCode">邮政编码</param>
-        /// <param name="Linkman">联系人</param>
-        /// <param name="Url">网址</param>
-        /// <param name="Address">地址</param>
         /// <param name="pageSize">每页记录数</param>
         /// <param name="pageIndex">页码</param>
         /// <returns></returns>
-        Task<PageModel<List<BSSupplier>>> GetPageAsync(string SupplierCode, string SupplierName, string TelephoneCode,
-            string Email, string PostCode, string Linkman, string Url, string Address, short pageSize, int pageIndex);
+        Task<PageModel<List<BSSupplier>>> GetPageAsync(string SupplierCode, string SupplierName, short pageSize, int pageIndex);
         /// <summary>
         /// 根据id获取
         /// </summary>

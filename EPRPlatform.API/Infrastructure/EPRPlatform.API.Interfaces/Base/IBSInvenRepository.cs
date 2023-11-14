@@ -16,17 +16,10 @@ namespace EPRPlatform.API.Interfaces
         /// </summary>
         /// <param name="InvenCode">存货编码</param>
         /// <param name="InvenName">存货名称</param>
-        /// <param name="InvenTypeCode">存货类别</param>
-        /// <param name="SpecsModel">规格型号</param>
-        /// <param name="MeaUnit">计量单位</param>
-        /// <param name="SelPrice">参考售价</param>
-        /// <param name="PurPrice">参考进价</param>
-        /// <param name="SmallStockNum">最低库存</param>
-        /// <param name="BigStockNum">最高库存</param>
         /// <param name="pageSize">每页记录数</param>
         /// <param name="pageIndex">页码</param>
         /// <returns></returns>
-        Task<PageModel<List<BSInvenSimple>>> GetPageAsync(string InvenCode, string InvenName, string InvenTypeCode, string SpecsModel, string MeaUnit, decimal? SelPrice, decimal? PurPrice, int? SmallStockNum, int? BigStockNum, short pageSize, int pageIndex);
+        Task<PageModel<List<BSInvenSimple>>> GetPageAsync(string InvenCode, string InvenName, short pageSize, int pageIndex);
         /// <summary>
         /// 根据id获取
         /// </summary>

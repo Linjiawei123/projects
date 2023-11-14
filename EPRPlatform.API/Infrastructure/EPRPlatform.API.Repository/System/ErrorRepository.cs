@@ -21,7 +21,7 @@ namespace EPRPlatform.API.Repository
 
         public async Task AddErrorAsync(Exception ex)
         {
-            ErrorLog log = new ErrorLog()
+            ErrorLog log = new()
             {
                 Message = ex.Message,
                 Source = ex.Source,
@@ -29,7 +29,7 @@ namespace EPRPlatform.API.Repository
                 AddTime = DateTime.Now
             };
             if (log.Message.Length > 500)
-                log.Message = log.Message.Substring(0, 500);
+                log.Message = log.Message[..500];
             _errorSet.Add(log);
             await _context.SaveChangesAsync();
         }

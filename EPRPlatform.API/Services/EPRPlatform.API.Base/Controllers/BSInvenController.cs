@@ -55,23 +55,15 @@ namespace EPRPlatform.API.Base.Controllers
         /// </summary>
         /// <param name="InvenCode">存货编码</param>
         /// <param name="InvenName">存货名称</param>
-        /// <param name="InvenTypeCode">存货类别</param>
-        /// <param name="SpecsModel">规格型号</param>
-        /// <param name="MeaUnit">计量单位</param>
-        /// <param name="SelPrice">参考售价</param>
-        /// <param name="PurPrice">参考进价</param>
-        /// <param name="SmallStockNum">最低库存</param>
-        /// <param name="BigStockNum">最高库存</param>
         /// <param name="pageSize">每页记录数</param>
         /// <param name="pageIndex">页码</param>
         /// <returns></returns>
         [HttpPost("{pageSize}/{pageIndex}")]
-        public async Task<OutPutModel<PageModel<List<BSInvenSimple>>>> GetPageAsync([FromForm] string InvenCode, [FromForm] string InvenName, [FromForm] string InvenTypeCode, [FromForm] string SpecsModel,
-            [FromForm] string MeaUnit, [FromForm] decimal? SelPrice, [FromForm] decimal? PurPrice, [FromForm] int? SmallStockNum, [FromForm] int? BigStockNum, short pageSize, int pageIndex)
+        public async Task<OutPutModel<PageModel<List<BSInvenSimple>>>> GetPageAsync([FromForm] string InvenCode, [FromForm] string InvenName,short pageSize, int pageIndex)
         {
             try
             {
-                PageModel<List<BSInvenSimple>> page = await _iBSInven.GetPageAsync(InvenCode, InvenName, InvenTypeCode, SpecsModel, MeaUnit, SelPrice, PurPrice, SmallStockNum, BigStockNum, pageSize, pageIndex);
+                PageModel<List<BSInvenSimple>> page = await _iBSInven.GetPageAsync(InvenCode, InvenName, pageSize, pageIndex);
                 return OutPutMethod<PageModel<List<BSInvenSimple>>>.Success(page, 0);
             }
             catch (Exception ex)

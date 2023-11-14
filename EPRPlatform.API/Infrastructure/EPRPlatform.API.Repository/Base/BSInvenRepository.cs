@@ -26,40 +26,26 @@ namespace EPRPlatform.API.Repository
             _bSInvenTypeSet = _context.Set<BSInvenType>();
         }
 
-        public async Task<PageModel<List<BSInvenSimple>>> GetPageAsync(string InvenCode, string InvenName, string InvenTypeCode, string SpecsModel, string MeaUnit, decimal? SelPrice, decimal? PurPrice, int? SmallStockNum, int? BigStockNum, short pageSize, int pageIndex)
+        public async Task<PageModel<List<BSInvenSimple>>> GetPageAsync(string InvenCode, string InvenName, short pageSize, int pageIndex)
         {
             if (pageSize <= 0)
                 pageSize = 10;
             if (pageIndex <= 0)
                 pageIndex = 10;
-            IQueryable<BSInvenSimple> query = GetQuery(InvenCode, InvenName, InvenTypeCode, SpecsModel, MeaUnit, SelPrice, PurPrice, SmallStockNum, BigStockNum);
+            IQueryable<BSInvenSimple> query = GetQuery(InvenCode, InvenName);
             int recordCount = await query.CountAsync();
             int pageCount = PublicMethods.GetPageCount(pageSize, recordCount);
             List<BSInvenSimple> pageData = await query.Skip(pageSize * (pageIndex - 1)).Take(pageSize).ToListAsync();
             return new PageModel<List<BSInvenSimple>> { RecordCount = recordCount, PageCount = pageCount, PageData = pageData };
         }
 
-        private IQueryable<BSInvenSimple> GetQuery(string InvenCode, string InvenName, string InvenTypeCode, string SpecsModel, string MeaUnit, decimal? SelPrice, decimal? PurPrice, int? SmallStockNum, int? BigStockNum)
+        private IQueryable<BSInvenSimple> GetQuery(string InvenCode, string InvenName)
         {
             Expression<Func<BSInven, bool>> exp = w => true;
             if (!string.IsNullOrEmpty(InvenCode))
                 exp = exp.And(w => w.InvenCode == InvenCode);
             if (!string.IsNullOrEmpty(InvenName))
                 exp = exp.And(w => w.InvenName.Contains(InvenName));
-            if (!string.IsNullOrEmpty(InvenTypeCode))
-                exp = exp.And(w => w.InvenTypeCode == InvenTypeCode);
-            if (!string.IsNullOrEmpty(SpecsModel))
-                exp = exp.And(w => w.SpecsModel.Contains(SpecsModel));
-            if (!string.IsNullOrEmpty(MeaUnit))
-                exp = exp.And(w => w.MeaUnit.Contains(MeaUnit));
-            if (SelPrice.HasValue)
-                exp = exp.And(w => w.SelPrice == SelPrice);
-            if (PurPrice.HasValue)
-                exp = exp.And(w => w.PurPrice == PurPrice);
-            if (SmallStockNum.HasValue)
-                exp = exp.And(w => w.SmallStockNum == SmallStockNum);
-            if (BigStockNum.HasValue)
-                exp = exp.And(w => w.BigStockNum == BigStockNum);
             return _bSInvenSet.AsNoTracking().Where(exp)
                 .Join(_bSInvenTypeSet, p => p.InvenTypeCode, q => q.InvenTypeCode, (p, q) => new BSInvenSimple
                 {

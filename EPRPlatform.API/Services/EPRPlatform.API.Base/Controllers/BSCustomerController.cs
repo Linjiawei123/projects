@@ -50,25 +50,17 @@ namespace EPRPlatform.API.Base.Controllers
         /// <summary>
         /// 获取分页
         /// </summary>
-        /// <param name="CustomerCode">供应商编号</param>
-        /// <param name="CustomerName">供应商名称</param>
-        /// <param name="TelephoneCode">联系电话</param>
-        /// <param name="Email">邮箱</param>
-        /// <param name="PostCode">邮政编码</param>
-        /// <param name="Linkman">联系人</param>
-        /// <param name="Url">网址</param>
-        /// <param name="Address">地址</param>
+        /// <param name="CustomerCode">客户编号</param>
+        /// <param name="CustomerName">客户名称</param>
         /// <param name="pageSize">每页记录数</param>
         /// <param name="pageIndex">页码</param>
         /// <returns></returns>
         [HttpPost("{pageSize}/{pageIndex}")]
-        public async Task<OutPutModel<PageModel<List<BSCustomer>>>> GetPageAsync([FromForm] string CustomerCode, [FromForm] string CustomerName, [FromForm] string TelephoneCode,
-            [FromForm] string Email, [FromForm] string PostCode, [FromForm] string Linkman, [FromForm] string Url, [FromForm] string Address, short pageSize, int pageIndex)
+        public async Task<OutPutModel<PageModel<List<BSCustomer>>>> GetPageAsync([FromForm] string CustomerCode, [FromForm] string CustomerName, short pageSize, int pageIndex)
         {
             try
             {
-                PageModel<List<BSCustomer>> page = await _iBSCustomer.GetPageAsync(CustomerCode, CustomerName, TelephoneCode,
-            Email, PostCode, Linkman, Url, Address, pageSize, pageIndex);
+                PageModel<List<BSCustomer>> page = await _iBSCustomer.GetPageAsync(CustomerCode, CustomerName, pageSize, pageIndex);
                 return OutPutMethod<PageModel<List<BSCustomer>>>.Success(page, 0);
             }
             catch (Exception ex)

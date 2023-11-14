@@ -76,7 +76,7 @@ namespace EPRPlatform.API.Extend
         /// <param name="redisValue"></param>
         /// <param name="expired"></param>
         /// <returns></returns>
-        Task<bool> StringSetAsync<T>(string redisKey, string redisValue, TimeSpan? expired = null);
+        Task<bool> StringSetAsync<T>(string redisKey, T redisValue, TimeSpan? expired = null);
         /// <summary>
         /// 获取一个对象（反序列化）
         /// </summary>

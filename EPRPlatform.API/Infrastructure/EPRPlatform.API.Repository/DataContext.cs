@@ -1,5 +1,6 @@
 ﻿using EPRPlatform.API.Models;
 using EPRPlatform.API.Models.Base;
+using EPRPlatform.API.Models.Highly;
 using Microsoft.EntityFrameworkCore;
 
 namespace EPRPlatform.API.Repository
@@ -182,6 +183,24 @@ namespace EPRPlatform.API.Repository
             modelBuilder.Entity<BSStore>(entity =>
             {
                 entity.ToTable("BSStore");
+            });
+            modelBuilder.Entity<BSAccount>(entity =>
+            {
+                entity.ToTable("BSAccount");
+            });
+            modelBuilder.Entity<BSBom>(entity =>
+            {
+                entity.ToTable("BSBom");
+            });
+            #endregion
+            #region 
+            modelBuilder.Entity<Goods>(entity =>
+            {
+                entity.ToTable("TbGoods");
+            });
+            modelBuilder.Entity<GoodsOrder>(entity =>
+            {
+                entity.ToTable("TbGoodsOrder");
             });
             #endregion
         }

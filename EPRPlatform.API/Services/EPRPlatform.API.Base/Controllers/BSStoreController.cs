@@ -51,8 +51,8 @@ namespace EPRPlatform.API.Base.Controllers
         /// <summary>
         /// 获取分页
         /// </summary>
-        /// <param name="StoreCode">存货编码</param>
-        /// <param name="StoreName">存货名称</param>
+        /// <param name="StoreCode">仓库编码</param>
+        /// <param name="StoreName">仓库名称</param>
         /// <param name="pageSize">每页记录数</param>
         /// <param name="pageIndex">页码</param>
         /// <returns></returns>
