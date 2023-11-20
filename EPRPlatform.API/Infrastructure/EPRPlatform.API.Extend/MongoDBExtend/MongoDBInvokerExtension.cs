@@ -1,11 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EPRPlatform.API.Extend.MongoDBExtend
+namespace EPRPlatform.API.Extend
 {
     public static class MongoDBInvokerExtension
     {
@@ -17,9 +18,7 @@ namespace EPRPlatform.API.Extend.MongoDBExtend
 
         public static void AddRedisInvoker(this IServiceCollection services)
         {
-#pragma warning disable CS8625 // 无法将 null 字面量转换为非 null 的引用类型。
-            services.AddMongoDBInvoker(null);
-#pragma warning restore CS8625 // 无法将 null 字面量转换为非 null 的引用类型。
+            services.AddMongoDBInvoker(_ => { });
         }
     }
 }

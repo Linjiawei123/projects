@@ -26,6 +26,11 @@ builder.Services.AddRedisInvoker(options =>
 {
     options.RedisConnectionString = configuration.GetValue<string>("RedisConnectionString");
 });
+var ee = configuration.GetSection("MongoDB").Get<MongoDBInvokerOptions>();
+builder.Services.AddMongoDBInvoker(option => {
+    option.MongoDBConnectionString = configuration.GetSection("MongoDB:MongoDBConnectionString").Value;
+    option.DataBase = configuration.GetSection("MongoDB:DataBase").Value;
+});
 
 builder.Services.AddRabbitMQInvoker(options =>
 {

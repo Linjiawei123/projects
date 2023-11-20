@@ -14,10 +14,10 @@ namespace EPRPlatform.API.Extend
     {
         private readonly IMongoDatabase _database;
 
-        public MongoDBInvoker(IOptions<MongoDBInvokerOptions> options)
+        public MongoDBInvoker(IOptions<MongoDBInvokerOptions> option)
         {
-            var client = new MongoClient(options.Value.MongoDBConnectionString);
-            _database = client.GetDatabase(options.Value.DataBase);
+            var client = new MongoClient(option.Value.MongoDBConnectionString);
+            _database = client.GetDatabase(option.Value.DataBase);
         }
         /// <summary>
         /// 新增
