@@ -24,14 +24,14 @@ namespace EPRPlatform.API.Extend
         /// <param name="filter"></param>
         /// <param name="update"></param>
         /// <returns></returns>
-        Task UpdateOne<T>(Expression<Func<T, bool>> filter, UpdateDefinition<T> update);
+        Task<bool> UpdateOne<T>(Expression<Func<T, bool>> filter, UpdateDefinition<T> update);
         /// <summary>
         /// 删除
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="filter"></param>
         /// <returns></returns>
-        Task DeleteOne<T>(Expression<Func<T, bool>> filter);
+        Task<bool> DeleteOne<T>(Expression<Func<T, bool>> filter);
         /// <summary>
         /// 查询数据集
         /// </summary>

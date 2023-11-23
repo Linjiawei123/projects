@@ -6,10 +6,9 @@ namespace EPRPlatform.API.Extend
 {
     public static class RabbitMQInvokerExtension
     {
-        public static void AddRabbitMQInvoker(this IServiceCollection services, Action<List<RabbitMQInvokerOptions>> action)
+        public static void AddRabbitMQInvoker(this IServiceCollection services, Action<RabbitMQInvokerOptions> action)
         {
-            services.Configure<List<RabbitMQInvokerOptions>>(action);
-            services.AddTransient<IErrorRepository, ErrorRepository>();
+            services.Configure<RabbitMQInvokerOptions>(action);
             services.AddTransient<IRabbitMQInvoker, RabbitMQInvoker>();
         }
 

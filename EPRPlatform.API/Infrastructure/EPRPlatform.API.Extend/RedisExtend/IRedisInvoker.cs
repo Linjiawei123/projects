@@ -10,6 +10,11 @@ namespace EPRPlatform.API.Extend
 {
     public interface IRedisInvoker
     {
+        /// <summary>
+        /// 获取连接
+        /// </summary>
+        /// <returns></returns>
+        IDatabase GetDatabase();
         #region 字符串
         /// <summary>
         /// 设置key，并保存字符串（如果key 已存在，则覆盖）
@@ -427,6 +432,13 @@ namespace EPRPlatform.API.Extend
         /// <param name="redisValue"></param>
         /// <returns></returns>
         Task<long> ListLeftPushAsync<T>(string redisKey, string redisValue);
+        /// <summary>
+        /// 通过指定Key值获取泛型List
+        /// </summary>
+        /// <typeparam name="T">泛型T</typeparam>
+        /// <param name="listkey">Key</param>
+        /// <returns></returns>
+        Task<List<T>> GetListAsync<T>(string listkey);
         #endregion
 
         #region sorted set operation

@@ -1,4 +1,5 @@
-﻿using RabbitMQ.Client;
+﻿using MongoDB.Driver.Core.Bindings;
+using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
 using System.Collections.Generic;
@@ -11,13 +12,14 @@ namespace EPRPlatform.API.Extend
 {
     public interface IRabbitMQInvoker
     {
-        /// <summary>
-        /// 发送消息
-        /// </summary>
-        void SendMsg(string userStr, string queName, string msg);
-        /// <summary>
-        /// 消费消息
-        /// </summary>
-        string Receive(string userStr, string queName, Action<string> messageHandler);
+        void DeclareExchange(string exchangeName, string exchangeType);
+
+        void DeclareQueue(string queueName, bool durable, bool exclusive, bool autoDelete);
+
+        void BindQueueToExchange(string queueName, string exchangeName, string routingKey);
+
+        void PublishMessage(string exchangeName, string routingKey, string message);
+
+        void StartConsumer(string queueName, Action<string> messageHandler);
     }
 }

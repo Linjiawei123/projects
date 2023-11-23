@@ -17,7 +17,11 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
 
-
+//×¢ÈëLog4Net
+builder.Services.AddLogging(cfg =>
+{
+    cfg.AddLog4Net();
+});
 
 
 // Cors

@@ -37,10 +37,11 @@ namespace EPRPlatform.API.Extend
         /// <param name="filter"></param>
         /// <param name="update"></param>
         /// <returns></returns>
-        public async Task UpdateOne<T>(Expression<Func<T, bool>> filter, UpdateDefinition<T> update)
+        public async Task<bool> UpdateOne<T>(Expression<Func<T, bool>> filter, UpdateDefinition<T> update)
         {
             IMongoCollection<T> collection = _database.GetCollection<T>(typeof(T).Name);
-            await collection.UpdateOneAsync(filter, update);
+            UpdateResult result = await collection.UpdateOneAsync(filter, update);
+            return result.MatchedCount > 0;
         }
         /// <summary>
         /// 删除
@@ -48,10 +49,11 @@ namespace EPRPlatform.API.Extend
         /// <typeparam name="T"></typeparam>
         /// <param name="filter"></param>
         /// <returns></returns>
-        public async Task DeleteOne<T>(Expression<Func<T, bool>> filter)
+        public async Task<bool> DeleteOne<T>(Expression<Func<T, bool>> filter)
         {
             IMongoCollection<T> collection = _database.GetCollection<T>(typeof(T).Name);
-            await collection.DeleteOneAsync(filter);
+            DeleteResult result = await collection.DeleteOneAsync(filter);
+            return result.DeletedCount > 0;
         }
         /// <summary>
         /// 查询数据集

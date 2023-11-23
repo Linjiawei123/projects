@@ -2,130 +2,90 @@
 using RabbitMQ.Client;
 using System.Text;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using EPRPlatform.API.Interfaces;
 
 namespace EPRPlatform.API.Extend
 {
-    public class RabbitMQInvoker : IRabbitMQInvoker
+    public class RabbitMQInvoker : IRabbitMQInvoker, IDisposable
     {
-        private readonly IErrorRepository _iError;
-        private readonly List<RabbitMQInvokerOptions> _rabbitMQOptions;
         private ConnectionFactory _factory;
         private IConnection _connection;
         private IModel _channel;
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public RabbitMQInvoker(IErrorRepository iError, IOptions<List<RabbitMQInvokerOptions>> options)
+
+        public RabbitMQInvoker(IOptions<RabbitMQInvokerOptions> option)
         {
-            _iError = iError;
-            _rabbitMQOptions = options.Value;
+            _factory = new ConnectionFactory
+            {
+                HostName = option.Value.Host,
+                Port = option.Value.Port,
+                UserName = option.Value.User,
+                Password = option.Value.Password
+            };
+
+            _connection = _factory.CreateConnection();
+            _channel = _connection.CreateModel();
+        }
+        /// <summary>
+        /// 声明Exchange
+        /// </summary>
+        /// <param name="exchangeName">交换机名称</param>
+        /// <param name="exchangeType">交换机类型</param>
+        public void DeclareExchange(string exchangeName, string exchangeType)
+        {
+            _channel.ExchangeDeclare(exchangeName, exchangeType);
+        }
+        /// <summary>
+        /// 声明队列
+        /// </summary>
+        /// <param name="queueName">队列名称</param>
+        /// <param name="durable">是否持久化，设置为true表示持久化。</param>
+        /// <param name="exclusive">是否排他性，设置为true表示只能被一个连接（connection）使用，用于创建临时队列。</param>
+        /// <param name="autoDelete">是否自动删除，设置为true表示连接断开时自动删除队列。</param>
+        public void DeclareQueue(string queueName, bool durable, bool exclusive, bool autoDelete)
+        {
+            _channel.QueueDeclare(queueName, durable, exclusive, autoDelete);
+        }
+        /// <summary>
+        /// 将队列绑定到交换机
+        /// </summary>
+        /// <param name="queueName">队列名称</param>
+        /// <param name="exchangeName">交换机名称</param>
+        /// <param name="routingKey">路由键</param>
+        public void BindQueueToExchange(string queueName, string exchangeName, string routingKey)
+        {
+            _channel.QueueBind(queueName, exchangeName, routingKey);
+        }
+        /// <summary>
+        /// 发布消息到交换机
+        /// </summary>
+        /// <param name="exchangeName">交换机名称</param>
+        /// <param name="routingKey">路由键</param>
+        /// <param name="message">消息内容</param>
+        public void PublishMessage(string exchangeName, string routingKey, string message)
+        {
+            var body = Encoding.UTF8.GetBytes(message);
+            _channel.BasicPublish(exchangeName, routingKey, null, body);
+        }
+        /// <summary>
+        /// 启动消息消费者
+        /// </summary>
+        /// <param name="queueName">队列名称</param>
+        /// <param name="messageHandler">消息处理的回调方法</param>
+        public void StartConsumer(string queueName, Action<string> messageHandler)
+        {
+            var consumer = new EventingBasicConsumer(_channel);
+            consumer.Received += (model, ea) =>
+            {
+                var receivedMessage = Encoding.UTF8.GetString(ea.Body.ToArray());
+                messageHandler(receivedMessage);
+            };
+
+            _channel.BasicConsume(queueName, true, consumer);
         }
 
-        /// <summary>
-        /// 发送消息
-        /// </summary>
-        /// <param name="queueName"></param>
-        /// <param name="message"></param>
-        public void SendMsg(string userStr, string queueName, string message)
-        {
-            try
-            {
-                InitConnection(userStr);
-
-                // 声明队列
-                _channel.QueueDeclare(queue: queueName,
-                    true,// 设置为true表示队列是持久化的
-                    false, false, null);
-
-                var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
-
-                _channel.BasicPublish("", queueName, null, body);
-
-            }
-            catch (Exception ex)
-            {
-                _iError.AddErrorAsync(ex).Wait();
-            }
-        }
-
-
-        /// <summary>
-        /// 接收消息
-        /// </summary>
-        /// <param name="queueName"></param>
-        /// <param name="messageHandler"></param>
-        public string Receive(string userStr, string queueName, Action<string> messageHandler)
-        {
-            string message = "";
-            try
-            {
-                InitConnection(userStr);
-
-                // 声明队列（接收需声明队列，否则队列不存在时，无法接收消息）
-                _channel.QueueDeclare(queueName,
-                    true, // 设置为true表示队列是持久化的
-                    false, false, null);
-
-                //设置消费者数量（并发度）,每个消费者每次只能处理一条消息
-                _channel.BasicQos(0, 1, false);
-
-                // 创建消费者
-                var consumer = new EventingBasicConsumer(_channel);
-                consumer.Received += (model, ea) =>
-                {
-                    try
-                    {
-                        message = Encoding.UTF8.GetString(ea.Body.ToArray());
-                        messageHandler(message);
-                        // 消息处理成功，确认消息
-                        _channel.BasicAck(ea.DeliveryTag, false);
-                    }
-                    catch (Exception ex)
-                    {
-                        // 消息处理异常，确认消息
-                        _channel.BasicAck(ea.DeliveryTag, false);
-                        _iError.AddErrorAsync(ex).Wait();
-                    }
-                };
-
-                _channel.BasicConsume(queueName,
-                    false,// 设置为true表示自动确认消息
-                    consumer);
-
-            }
-            catch (Exception ex)
-            {
-                _iError.AddErrorAsync(ex).Wait();
-            }
-            return message;
-        }
-
-        /// <summary>
-        /// 初始化链接
-        /// </summary>
-        private void InitConnection(string userStr)
-        {
-            var option = _rabbitMQOptions.Find(w => w.User == userStr);
-            // 设置连接参数
-            _factory = new ConnectionFactory() { HostName = option.Host, UserName = option.User, Password = option.Password };
-            if (_connection == null || !_connection.IsOpen)
-            {
-                _connection = _factory.CreateConnection();
-                _channel = _connection.CreateModel();
-            }
-        }
-
-        /// <summary>
-        /// 释放资源
-        /// </summary>
         public void Dispose()
         {
             _channel?.Close();
-            _channel?.Dispose();
             _connection?.Close();
-            _connection?.Dispose();
         }
     }
 }

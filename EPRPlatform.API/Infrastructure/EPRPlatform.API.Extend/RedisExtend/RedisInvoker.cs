@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Amazon.Runtime.Internal.Util;
+using log4net;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 
@@ -6,6 +8,7 @@ namespace EPRPlatform.API.Extend
 {
     public class RedisInvoker : IRedisInvoker
     {
+        private readonly ILog log = LogManager.GetLogger(typeof(RedisInvoker));
         private ConnectionMultiplexer redis = null;
         /// <summary>
         /// 数据库访问对象
@@ -23,8 +26,17 @@ namespace EPRPlatform.API.Extend
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message, ex);
+                log.Error(string.Format("Message: {0} \n Source: {1} \n  StackTrace: {2} \n", ex.Message, ex.Source, ex.StackTrace));
             }
+        }
+
+        /// <summary>
+        /// 获取连接
+        /// </summary>
+        /// <returns></returns>
+        public IDatabase GetDatabase()
+        {
+            return _db;
         }
 
         #region 字符串
@@ -700,6 +712,32 @@ namespace EPRPlatform.API.Extend
         public async Task<long> ListLeftPushAsync<T>(string redisKey, string redisValue)
         {
             return await _db.ListLeftPushAsync(redisKey, JsonConvert.SerializeObject(redisValue));
+        }
+        /// <summary>
+        /// 通过指定Key值获取泛型List
+        /// </summary>
+        /// <typeparam name="T">泛型T</typeparam>
+        /// <param name="listkey">Key</param>
+        /// <returns></returns>
+        public async Task<List<T>> GetListAsync<T>(string listkey)
+        {
+            if (_db == null)
+            {
+                return new List<T>();
+            }
+            if (_db.KeyExists(listkey))
+            {
+                var value = await _db.StringGetAsync(listkey);
+                if (!string.IsNullOrEmpty(value))
+                {
+                    var list = JsonConvert.DeserializeObject<List<T>>(value);
+                    return list;
+                }
+                else
+                    return new List<T>();
+            }
+            else
+                return new List<T>();
         }
         #endregion
 

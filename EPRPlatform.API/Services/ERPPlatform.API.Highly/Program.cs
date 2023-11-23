@@ -5,7 +5,6 @@ using EPRPlatform.API.Repository;
 using EPRPlatform.API.Repository.Highly;
 using EPRPlatform.API.Interfaces.Highly;
 using EPRPlatform.API.Extend;
-using EPRPlatform.API.Modles;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +16,12 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//×¢ÈëLog4Net
+builder.Services.AddLogging(cfg =>
+{
+    cfg.AddLog4Net();
+});
 
 // EFCore
 builder.Services.AddDbContext<DataContext>(option => option.UseSqlServer(configuration.GetConnectionString("Default")));
@@ -34,7 +39,10 @@ builder.Services.AddMongoDBInvoker(option => {
 
 builder.Services.AddRabbitMQInvoker(options =>
 {
-    options.AddRange(configuration.GetSection("RabbitMQ").Get<List<RabbitMQInvokerOptions>>());
+    options.Host = configuration.GetSection("RabbitMQ:Host").Value;
+    options.Port = int.Parse(configuration.GetSection("RabbitMQ:Port").Value);
+    options.User = configuration.GetSection("RabbitMQ:User").Value;
+    options.Password = configuration.GetSection("RabbitMQ:Password").Value;
 });
 
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());//Ìæ»»ÈÝÆ÷
